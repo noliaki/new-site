@@ -1,0 +1,88 @@
+@charset "utf-8";
+@import "compass";
+
+/*----------------------------------------------------
+
+  reset
+/*====================================================*/
+
+
+$base-font-size: 20px;
+$base-line-height: 1;
+@include global-reset;
+
+$default-font : Verdana, Arial, 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+$ie6-font : "ＭＳ Ｐゴシック", "MS PGothic", Sans-Serif;
+/*----------------------------------------------------
+
+  common
+====================================================*/
+html {
+  @extend html;
+  overflow-y: scroll;
+}
+
+body {
+  @extend body;
+  font-family: $default-font;
+  height: 100%;
+  line-height: 1.7;
+  min-width: 1200px;
+  *zoom: 1;
+  *display: inline;
+  /* for iPhone */
+  -webkit-text-size-adjust: 100%;
+}
+
+input, textarea {
+  font-family: $default-font;
+}
+
+/* for IE6 */
+* html {
+  body,
+  input,
+  textarea {
+    font-family: $ie6-font;
+  }
+}
+
+
+/* select color
+----------------------------------------------------*/
+$selection-bg-color : #0af;
+$selection-color : #fff;
+::selection {
+  background: $selection-bg-color;
+  color: $selection-color;
+}
+::-moz-selection {
+  background: $selection-bg-color;
+  color: $selection-color;
+}
+
+/* link
+----------------------------------------------------*/
+a {
+  $color : #999;
+  color: $color;
+  outline: none;
+
+  &:link {
+    color: scale_color( $color, $lightness: 50% );
+  }
+
+  &:visited {
+    color: scale_color( $color, $lightness: 30% );
+  }
+
+  &:hover {
+    color: scale_color( $color, $lightness: 80% );
+  }
+
+  &:active {
+    color: scale_color( $color, $lightness: 70% );
+  }
+}
+
+
