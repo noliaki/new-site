@@ -1,21 +1,26 @@
 <%
 var PAGE_IFNO = {
-  "title"           : "index",
-  "description"     : "index-description",
-  "keywords"        : "index-keywords",
-  "fb:app_id"       : "index-fb:app_id",
-  "og:title"        : "index-og:title",
-  "og:type"         : "index-og:type",
-  "og:site_name"    : "index-og:site_name",
-  "og:url"          : "index-og:url",
-  "og:image"        : "index-og:image",
-  "og:description"  : "index-og:description"
+  "title"           : "INDEX",
+  "description"     : "INDEX-description",
+  "keywords"        : "INDEX-keywords",
+  "fb:app_id"       : "INDEX-fb:app_id",
+  "og:title"        : "INDEX-og:title",
+  "og:type"         : "INDEX-og:type",
+  "og:site_name"    : "INDEX-og:site_name",
+  "og:url"          : "INDEX-og:url",
+  "og:image"        : "INDEX-og:image",
+  "og:description"  : "INDEX-og:description"
 };
-%>
-<% include _layouts/default %>
-<% include _includes/_header %>
-
-<div class="index">
-  <h1>INDEX</h1>
+-%><%
+var content = function(){
+// --------------------------------
+// content
+// 
+-%>
+<div class="INDEX-1">
+  <h1>INDEX | INDEX</h1>
 <!-- /.index --></div>
-<% include _includes/_footer %>
+
+<% };/* end content */ -%><%
+
+include _layouts/_default.ejs -%>

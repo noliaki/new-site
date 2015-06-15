@@ -9,10 +9,9 @@
       imagemin       = require("gulp-imagemin"),
       pngquant       = require("imagemin-pngquant"),
       yuicompressor  = require("gulp-yuicompressor"),
-      jsonminify     = require("gulp-jsonminify"),
-      minifyHTML     = require('gulp-minify-html'),
-      rimraf         = require('rimraf'),
+      rimraf         = require('gulp-rimraf'),
       ejs            = require('gulp-ejs'),
+      plumber        = require("gulp-plumber"),
       browserSync    = require('browser-sync').create();
 
   // =============================================
@@ -46,11 +45,12 @@
       "style": "nested",
       "compass": true
     })
+    .pipe(plumber())
     .on('error', function (err) {
       console.error('Error!', err.message);
     })
     .pipe(gulp.dest(buildDir))
-    .pipe(browserSync.stream());
+    .pipe(browserSync.reload({ stream: true }));
   });
 
   // =============================================
@@ -58,13 +58,14 @@
   // 
   gulp.task("imagemin", function(){
     gulp.src([srcDir + "/**/*.png", srcDir + "/**/*.jpg", srcDir + "/**/*.gif"])
+        .pipe(plumber())
         .pipe(imagemin({
           progressive: true,
           svgoPlugins: [{removeViewBox: false}],
           use: [pngquant()]
         }))
         .pipe(gulp.dest(buildDir))
-        .pipe(browserSync.stream());
+        .pipe(browserSync.reload({ stream: true }));
   });
 
 
@@ -73,6 +74,7 @@
   // 
   gulp.task("jsmin", function() {
     gulp.src([srcDir + "/**/*.js"])
+        .pipe(plumber())
         .pipe(yuicompressor({
           type: 'js'
         }))
@@ -80,58 +82,51 @@
           console.error('Error!', err.message);
         })
         .pipe(gulp.dest(buildDir))
-        .pipe(browserSync.stream());
-  });
-
-  // =============================================
-  // json min
-  // 
-  gulp.task("jsonmin", function() {
-    gulp.src([srcDir + "/**/*.json"])
-        .pipe(jsonminify())
-        .pipe(gulp.dest(buildDir))
-        .pipe(browserSync.stream());
+        .pipe(browserSync.reload({ stream: true }));
   });
 
 
   // =============================================
-  // json min
+  // copy
   // 
-  gulp.task("minify-html", function() {
-    var opts = {
-      conditionals: true,
-      spare:true
-    };
-   
+  gulp.task("copy", function() {   
     gulp.src([srcDir + "/**/*.html"])
-        .pipe(minifyHTML(opts))
-        .pipe(gulp.dest(buildDir))
-        .pipe(browserSync.stream());
+        .pipe(gulp.dest(buildDir));
   });
 
   // =============================================
-  // ECT
+  // ejs
   // 
   gulp.task("ejs", function() {  
     gulp.src([srcDir + "/**/*.ejs", "!" + srcDir + "/**/_*.ejs"])
+        .pipe(plumber())
         .pipe(ejs())
         .pipe(gulp.dest(buildDir))
-        .pipe(browserSync.stream());
+        .pipe(browserSync.reload({ stream: true }));
   });
 
   // =============================================
   // clean dir
   // 
-  gulp.task("clean", function(cb) {
-    rimraf(buildDir, cb);
+  gulp.task("clean", function() {
+    gulp.src(buildDir, { read: false })
+        .pipe(plumber())
+        .pipe(rimraf({ force: true }));
   });
 
-  gulp.task("default", ["clean", "ejs", "sass", "imagemin", "jsmin", "jsonmin", "minify-html", "browser-sync"], function(){
-    gulp.watch([srcDir + "/**/*.html"], ["minify-html"]);
-    gulp.watch([srcDir + "/**/*.json"], ["jsonmin"]);
+  // =============================================
+  // gulp default task
+  // 
+  gulp.task("default", ["clean", "browser-sync", "copy", "ejs", "sass", "imagemin", "jsmin"], function(){
     gulp.watch([srcDir + "/**/*.js"], ["jsmin"]);
     gulp.watch([srcDir + "/**/*.scss"], ["sass"]);
     gulp.watch([srcDir + "/**/*.ejs"], ["ejs"]);
 
   });
+
+  // =============================================
+  // gulp build
+  // 
+  gulp.task("build", ["clean", "copy", "ejs", "sass", "imagemin", "jsmin"]);
+
 })();

@@ -20,6 +20,25 @@
 <link rel="shortcut icon" href="FAVICON PATH">
 <link rel="index" href="/">
 <link rel="stylesheet" href="/css/style.css">
-<script src="js/wlb.js"></script>
+<%
+  if( typeof localStyle === "function" ){
+    localStyle();
+  }
+-%>
+<script src="js/rnt.js"></script>
+<%
+  if( typeof localScript === "function" ){
+    localScript();
+  }
+-%>
 </head>
 <body id="siteID">
+<% include ../_includes/_header.ejs %>
+<div class="main">
+  <div class="inner">
+    <% content(); -%>
+  <!-- /.inner --></div>
+<!-- /.main --></div>
+<% include ../_includes/_footer.ejs %>
+</body>
+</html>

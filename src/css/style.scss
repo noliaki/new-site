@@ -6,13 +6,14 @@
 // 
 // variables
 // 
-$base-font-size     : 16px;
+$base-font-size     : 76%;
 $base-line-height   : 1.7;
-$default-font       : sans-serif;
+$default-font       : "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "游ゴシック", YuGothic, sans-serif;
 $font-color         : #999;
-$linl-color         : #0af;
-
-
+$link-color         : #0af;
+$linled-img-opacity : 0.7;
+$inner-width        : 600px;
+$background-color   : #ccc;
 
 
 //
@@ -20,12 +21,14 @@ $linl-color         : #0af;
 //
 %clearfix {
   &:after {
-    content: "."; display: block; visibility: hidden; height: 0.1px; font-size: 0.1em; line-height: 0; clear: both;
+    content: ".";
+    display: block;
+    visibility: hidden;
+    height: 0.1px;
+    font-size: 0.1em;
+    line-height: 0;
+    clear: both;
   }
-}
-
-.cleadfix {
-  @extend %clearfix;
 }
 
 
@@ -33,24 +36,22 @@ $linl-color         : #0af;
 
   reset
 /*====================================================*/
-@include global-reset;
+// @include global-reset;
+html{overflow-y:scroll;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{margin:0;padding:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;}table{border-collapse:collapse;border-spacing:0;}caption,th{text-align:left;}q:before,q:after{content:'';}object,embed{vertical-align:top;}hr,legend{display:none;}h1,h2,h3,h4,h5,h6{font-size:100%;}img,abbr,acronym,fieldset{border:0;}ul li{list-style-type:none;}a,label{cursor:pointer;}img{vertical-align:bottom;margin:0;padding:0;}
+
 
 
 /*----------------------------------------------------
 
   common
 ====================================================*/
-html {
-  @extend html;
-  overflow-y: scroll;
-}
-
 body {
   @extend body;
   font-family: $default-font;
+  font-size: $base-font-size;
   color: $font-color;
   line-height: $base-line-height;
-  min-width: 1200px;
+  min-width: $inner-width;
   *zoom: 1;
   *display: inline;
   /* for iPhone */
@@ -59,6 +60,10 @@ body {
 
 input, textarea {
   font-family: $default-font;
+}
+
+.clearfix {
+  @extend %clearfix;
 }
 
 
@@ -79,25 +84,69 @@ $selection-color : #fff;
 /* link
 ----------------------------------------------------*/
 a {
-  color: $linl-color;
   outline: none;
 
   &:link {
-    color: scale_color( $linl-color, $lightness: 50% );
+    color: $link-color;
   }
 
   &:visited {
-    color: scale_color( $linl-color, $lightness: 30% );
+    color: scale_color( $link-color, $lightness: 30% );
   }
 
   &:hover {
-    color: scale_color( $linl-color, $lightness: 80% );
+    color: scale_color( $link-color, $lightness: 80% );
+    text-decoration: none;
   }
 
   &:active {
-    color: scale_color( $linl-color, $lightness: 70% );
+    color: scale_color( $link-color, $lightness: 70% );
+  }
+
+  &.linked_img img {
+    -ms-filter: "alpha( opacity=" + ($linled-img-opacity * 100) +  " )";
+    filter: alpha( opacity=($linled-img-opacity * 100) );
+    opacity: $linled-img-opacity;
   }
 }
+
+/*----------------------------------------------------
+
+  .inner
+====================================================*/
+.inner {
+  width: $inner-width;
+  margin: 0 auto;
+}
+
+/*----------------------------------------------------
+
+  .header
+====================================================*/
+.header {
+  background: #efefef;
+
+  .logo {
+    float: left;
+  }
+
+  .global_nav {
+    float: right;
+
+    .nav_list {
+      float: left;
+      margin-left: 10px;
+    }
+  }
+}
+
+/*----------------------------------------------------
+
+  main
+====================================================*/
+.main {
+}
+
 
 
 @import "_print";
