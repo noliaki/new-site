@@ -112,8 +112,8 @@
   // =============================================
   // clean dir
   // 
-  gulp.task("clean", function(cb) {
-    rimraf(buildDir, cb);
+  gulp.task("clean", function(callback) {
+    rimraf(buildDir, callback);
   });
 
   // =============================================
