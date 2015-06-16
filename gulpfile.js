@@ -58,15 +58,10 @@
   // image min
   // 
   gulp.task("imagemin", function(){
-    gulp.src([srcDir + "/**/*.png", srcDir + "/**/*.jpg", srcDir + "/**/*.gif"])
+    gulp.src([srcDir + "/**/*.+(jpg|jpeg|png|gif|svg)"])
         .pipe(plumber())
-        .pipe(imagemin({
-          progressive: true,
-          svgoPlugins: [{removeViewBox: false}],
-          use: [pngquant()]
-        }))
-        .pipe(gulp.dest(buildDir))
-        .pipe(browserSync.reload({ stream: true }));
+        .pipe(imagemin())
+        .pipe(gulp.dest(buildDir));
   });
 
 
@@ -95,9 +90,7 @@
           srcDir + "/**/*",
           "!" + srcDir + "/**/*.js",
           "!" + srcDir + "/**/*.ejs",
-          "!" + srcDir + "/**/*.png",
-          "!" + srcDir + "/**/*.gif",
-          "!" + srcDir + "/**/*.jpg",
+          "!" + srcDir + "/**/*.+(jpg|jpeg|png|gif|svg)",
           "!" + srcDir + "/**/*.scss",
           "!" + srcDir + "/_*/",
           "!" + srcDir + "/**/_*"
@@ -135,6 +128,7 @@
     gulp.watch([srcDir + "/**/*.js"], ["jsmin"]);
     gulp.watch([srcDir + "/**/*.scss"], ["sass"]);
     gulp.watch([srcDir + "/**/*.ejs"], ["ejs"]);
+    gulp.watch([srcDir + "/**/*.html", srcDir + "/**/*.css"], ["copy"]);
 
   });
 
