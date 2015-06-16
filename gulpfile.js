@@ -90,7 +90,16 @@
   // copy
   // 
   gulp.task("copy", function() {   
-    gulp.src([srcDir + "/**/*.html"])
+    gulp.src([
+          srcDir + "/**/*",
+          "!" + srcDir + "/**/*.js",
+          "!" + srcDir + "/**/*.ejs",
+          "!" + srcDir + "/**/_*.ejs",
+          "!" + srcDir + "/**/*.png",
+          "!" + srcDir + "/**/*.gif",
+          "!" + srcDir + "/**/*.jpg",
+          "!" + srcDir + "/**/*.scss"
+        ])
         .pipe(gulp.dest(buildDir));
   });
 
