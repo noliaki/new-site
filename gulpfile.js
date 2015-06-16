@@ -9,9 +9,10 @@
       imagemin       = require("gulp-imagemin"),
       pngquant       = require("imagemin-pngquant"),
       yuicompressor  = require("gulp-yuicompressor"),
-      rimraf         = require('gulp-rimraf'),
+      rimraf         = require('rimraf'),
       ejs            = require('gulp-ejs'),
       plumber        = require("gulp-plumber"),
+      runSequence    = require('run-sequence'),
       browserSync    = require('browser-sync').create();
 
   // =============================================
@@ -94,11 +95,12 @@
           srcDir + "/**/*",
           "!" + srcDir + "/**/*.js",
           "!" + srcDir + "/**/*.ejs",
-          "!" + srcDir + "/**/_*.ejs",
           "!" + srcDir + "/**/*.png",
           "!" + srcDir + "/**/*.gif",
           "!" + srcDir + "/**/*.jpg",
-          "!" + srcDir + "/**/*.scss"
+          "!" + srcDir + "/**/*.scss",
+          "!" + srcDir + "/_*/",
+          "!" + srcDir + "/**/_*"
         ])
         .pipe(gulp.dest(buildDir));
   });
@@ -117,16 +119,19 @@
   // =============================================
   // clean dir
   // 
-  gulp.task("clean", function() {
-    gulp.src(buildDir, { read: false })
-        .pipe(plumber())
-        .pipe(rimraf({ force: true }));
+  gulp.task("clean", function(cb) {
+    rimraf(buildDir, cb);
   });
 
   // =============================================
   // gulp default task
   // 
-  gulp.task("default", ["clean", "browser-sync", "copy", "ejs", "sass", "imagemin", "jsmin"], function(){
+  gulp.task("default", function(){
+    runSequence(
+      "clean",
+      ["copy", "ejs", "sass", "imagemin", "jsmin"],
+      "browser-sync"
+    );
     gulp.watch([srcDir + "/**/*.js"], ["jsmin"]);
     gulp.watch([srcDir + "/**/*.scss"], ["sass"]);
     gulp.watch([srcDir + "/**/*.ejs"], ["ejs"]);
@@ -136,6 +141,11 @@
   // =============================================
   // gulp build
   // 
-  gulp.task("build", ["clean", "copy", "ejs", "sass", "imagemin", "jsmin"]);
+  gulp.task("build", function(){
+    runSequence(
+      "clean",
+      ["copy", "ejs", "sass", "imagemin", "jsmin"]
+    );
+  });
 
 })();

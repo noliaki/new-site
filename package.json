@@ -25,6 +25,7 @@
     "gulp-ruby-sass": "^1.0.0-alpha.3",
     "gulp-yuicompressor": "0.0.3",
     "imagemin-pngquant": "^4.0.0",
-    "rimraf": "^2.4.0"
+    "rimraf": "^2.4.0",
+    "run-sequence": "^1.1.0"
   }
 }

@@ -12,8 +12,10 @@ $default-font       : "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hir
 $font-color         : #999;
 $link-color         : #0af;
 $linled-img-opacity : 0.7;
-$inner-width        : 600px;
+$inner-width        : 500px;
 $background-color   : #ccc;
+$selection-bg-color : #0af;
+$selection-color    : #fff;
 
 
 //
@@ -70,8 +72,6 @@ input, textarea {
 
 /* select color
 ----------------------------------------------------*/
-$selection-bg-color : #0af;
-$selection-color : #fff;
 ::selection {
   background: $selection-bg-color;
   color: $selection-color;
