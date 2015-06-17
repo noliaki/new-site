@@ -28,12 +28,6 @@
     browserSync.init({
       server: {
         baseDir: buildDir
-      },
-      ui: {
-        port: 8080,
-        weinre: {
-          port: 9090
-        }
       }
     });
   });
@@ -42,16 +36,16 @@
   // sass
   // 
   gulp.task("sass", function() {
-    sass(srcDir, {
-      "style": "nested",
-      "compass": true
-    })
-    .pipe(plumber())
-    .on('error', function (err) {
-      console.error('Error!', err.message);
-    })
-    .pipe(gulp.dest(buildDir))
-    .pipe(browserSync.reload({ stream: true }));
+    return sass(srcDir, {
+             "style": "nested",
+             "compass": true
+           })
+           .pipe(plumber())
+           .on('error', function (err) {
+             console.error('Error!', err.message);
+           })
+           .pipe(gulp.dest(buildDir))
+           .pipe(browserSync.stream());
   });
 
   // =============================================
@@ -78,7 +72,7 @@
           console.error('Error!', err.message);
         })
         .pipe(gulp.dest(buildDir))
-        .pipe(browserSync.reload({ stream: true }));
+        .pipe(browserSync.stream());
   });
 
 
@@ -102,18 +96,21 @@
   // ejs
   // 
   gulp.task("ejs", function() {  
-    gulp.src([srcDir + "/**/*.ejs", "!" + srcDir + "/**/_*.ejs"])
+    gulp.src([
+          srcDir + "/**/*.ejs",
+          "!" + srcDir + "/**/_*.ejs"
+        ])
         .pipe(plumber())
         .pipe(ejs())
         .pipe(gulp.dest(buildDir))
-        .pipe(browserSync.reload({ stream: true }));
+        .pipe(browserSync.stream());
   });
 
   // =============================================
   // clean dir
   // 
-  gulp.task("clean", function(cb) {
-    rimraf(buildDir, cb);
+  gulp.task("clean", function(callBack) {
+    rimraf(buildDir, callBack);
   });
 
   // =============================================

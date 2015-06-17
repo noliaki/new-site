@@ -60,6 +60,7 @@ var rnt = $.rnt = (function(){
   isIE = function(){
     var pattern,
         matchVersion;
+
     if(arguments.length) {
       for(var i = -1, len = arguments.length; ++ i < len;){
         pattern = new RegExp("MSIE\s" + arguments[i], "i");
@@ -67,6 +68,7 @@ var rnt = $.rnt = (function(){
       }
       return false;
     }
+
     pattern = new RegExp("MSIE\s[0-9]+\.[0-9]+", "i");
     matchVersion = UA.match(pattern);
     return matchVersion? matchVersion[0] : false;
@@ -96,13 +98,16 @@ var rnt = $.rnt = (function(){
 
       if(imgType){
         imgType = imgType[0];
+
         if(param["offName"] == ""){
           rollOverSrc = defaultSrc.replace(imgType, param["onName"] + imgType);
         } else {
           rollOverSrc = defaultSrc.replace(param["offName"] + imgType, param["onName"] + imgType);
         }
+
         rollOverImg = new Image();
         rollOverImg.src = rollOverSrc;
+
         $focus.data("src", {
           "defaultSrc" : defaultSrc,
           "rollOverSrc" : rollOverSrc
@@ -140,7 +145,10 @@ var rnt = $.rnt = (function(){
             $target = $((href == "#" || href == "" || !href)? "html" : href),
             position;
 
-        if(!$target.offset()) return;
+        if(!$target.offset()){
+          return;
+        }
+
         position = $target.offset().top;
         $scroller.animate({
           "scrollTop" : position
