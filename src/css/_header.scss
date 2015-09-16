@@ -1,0 +1,19 @@
+// ----------------------------------
+// global-header
+// 
+.global-header {
+  background: #efefef;
+
+  .logo {
+    float: left;
+  }
+
+  .global_nav {
+    float: right;
+
+    .nav_list {
+      float: left;
+      margin-left: 10px;
+    }
+  }
+}
