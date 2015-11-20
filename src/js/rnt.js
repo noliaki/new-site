@@ -90,7 +90,7 @@ var rnt = $.rnt = (function(){
 
       $focus = $img.eq(i),
       defaultSrc = $focus.attr("src"),
-      imgType = defaultSrc.match(/(\.gif|\.jpg|\.png)$/);
+      imgType = defaultSrc.match(/(\.gif|\.jpe?g|\.png)$/);
 
       if(imgType){
         imgType = imgType[0];

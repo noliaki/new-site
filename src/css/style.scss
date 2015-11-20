@@ -2,21 +2,24 @@
 
 @charset "utf-8";
 
-
-// 
+// ----------------------------------
 // variables
 // 
-$base-font-size     : 76%;
+$base-font-size     : 16px;
 $base-line-height   : 1.7;
 $default-font       : "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "游ゴシック", YuGothic, sans-serif;
 $font-color         : #999;
 $link-color         : #0af;
+$link-visited-color : scale_color( $link-color, $lightness: 30% );
+$link-hover-color   : scale_color( $link-color, $lightness: 50% );
+$link-active-color  : scale_color( $link-color, $lightness: 20% );
 $linled-img-opacity : 0.7;
 $inner-width        : 500px;
 $background-color   : #ccc;
 $selection-bg-color : #0af;
 $selection-color    : #fff;
 
+<<<<<<< HEAD
 
 
 
@@ -167,5 +170,8 @@ a {
   }
 }
 
-
-@import "_print";
+@import "_layout",
+        "_header",
+        "_footer",
+        "_main",
+        "_print";
