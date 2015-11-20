@@ -1,7 +1,10 @@
 <%
 var PAGE_IFNO = {
-  "title"           : "INDEX",
-  "description"     : "INDEX-description",
+  /**
+   * META
+   */
+  "title"           : "INDEX",              // require
+  "description"     : "INDEX-description",  // require
   "keywords"        : "INDEX-keywords",
   "fb:app_id"       : "INDEX-fb:app_id",
   "og:title"        : "INDEX-og:title",
@@ -9,18 +12,28 @@ var PAGE_IFNO = {
   "og:site_name"    : "INDEX-og:site_name",
   "og:url"          : "INDEX-og:url",
   "og:image"        : "INDEX-og:image",
-  "og:description"  : "INDEX-og:description"
+  "og:description"  : "INDEX-og:description",
+
+  /**
+   * CATEGORY: require
+   */
+  "CATEGORY"        : "INDEX"
 };
 -%><%
 var content = function(){
-// --------------------------------
-// content
-// 
--%>
-<div class="INDEX-1">
+/********************************
+ * start content
+ */-%>
+
   <h1>INDEX | INDEX</h1>
-<!-- /.index --></div>
 
-<% };/* end content */ -%><%
+<% };
+/**
+ * end content
+ *********************************/
+-%><%
 
-include _layouts/_default.ejs %>
+/*********************************
+ * load layout
+ *********************************/
+-%><% include ./_layouts/_default.ejs %>

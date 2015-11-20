@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+<%
+
+var CONFIG = {
+  "domain"        : "hogefuga.com",
+  "lang"          : "ja",
+  "charset"       : "utf-8",
+  "copyright"     : "hogehogehoge",
+  "favicon-path"  : "http://" + "test" + "/favicon.ico"
+};
+
+%><!DOCTYPE html>
 <!--[if lt IE 7 ]> <html lang="ja" class="ie6"> <![endif]-->
 <!--[if IE 7 ]>    <html lang="ja" class="ie7"> <![endif]-->
 <!--[if IE 8 ]>    <html lang="ja" class="ie8"> <![endif]-->
@@ -22,18 +32,15 @@
 <meta property="og:image" content="<%= PAGE_IFNO['og:image'] %>">
 <meta property="og:description" content="<%= PAGE_IFNO['og:description'] %>">
 <title><%= PAGE_IFNO['title'] %></title>
-<link rel="shortcut icon" href="FAVICON PATH">
+<link rel="shortcut icon" href="<%= CONFIG['favicon-path'] %>">
 <link rel="index" href="/">
 <link rel="stylesheet" href="/css/style.css">
 <%
+  /**
+   * local style sheet
+   */
   if( typeof localStyle === "function" ){
     localStyle();
-  }
--%>
-<script src="js/rnt.js"></script>
-<%
-  if( typeof localScript === "function" ){
-    localScript();
   }
 -%>
 </head>
@@ -45,5 +52,17 @@
   <!-- /.inner --></div>
 <!-- /.main --></div>
 <% include ../_includes/_footer.ejs %>
+<script src="js/rnt.js"></script>
+<%
+  /**
+   * local java script
+   */
+  if( typeof localScript === "function" ){
+    localScript();
+  }
+-%>
+
+<% console.log(filename); %>
+<br>
 </body>
 </html>

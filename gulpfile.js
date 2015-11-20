@@ -13,6 +13,7 @@
       ejs            = require('gulp-ejs'),
       plumber        = require("gulp-plumber"),
       runSequence    = require('run-sequence'),
+      coffee         = require('gulp-coffee'),
       browserSync    = require('browser-sync').create();
 
   // =============================================
@@ -60,14 +61,12 @@
 
 
   // =============================================
-  // js min
+  // coffee
   // 
-  gulp.task("jsmin", function() {
-    gulp.src([srcDir + "/**/*.js"])
+  gulp.task("coffee", function() {
+    gulp.src([srcDir + "/**/*.coffee"])
         .pipe(plumber())
-        .pipe(yuicompressor({
-          type: 'js'
-        }))
+        .pipe(coffee())
         .on('error', function (err) {
           console.error('Error!', err.message);
         })
@@ -82,7 +81,7 @@
   gulp.task("copy", function() {   
     gulp.src([
           srcDir + "/**/*",
-          "!" + srcDir + "/**/*.js",
+          "!" + srcDir + "/**/*.coffee",
           "!" + srcDir + "/**/*.ejs",
           "!" + srcDir + "/**/*.+(jpg|jpeg|png|gif|svg)",
           "!" + srcDir + "/**/*.scss",
@@ -119,10 +118,10 @@
   gulp.task("default", function(){
     runSequence(
       "clean",
-      ["copy", "ejs", "sass", "imagemin", "jsmin"],
+      ["copy", "ejs", "sass", "imagemin", "coffee"],
       "browser-sync"
     );
-    gulp.watch([srcDir + "/**/*.js"], ["jsmin"]);
+    gulp.watch([srcDir + "/**/*.coffee"], ["coffee"]);
     gulp.watch([srcDir + "/**/*.scss"], ["sass"]);
     gulp.watch([srcDir + "/**/*.ejs"], ["ejs"]);
     gulp.watch([srcDir + "/**/*.html", srcDir + "/**/*.css"], ["copy"]);
@@ -135,7 +134,7 @@
   gulp.task("build", function(){
     runSequence(
       "clean",
-      ["copy", "ejs", "sass", "imagemin", "jsmin"]
+      ["copy", "ejs", "sass", "imagemin", "coffee"]
     );
   });
 

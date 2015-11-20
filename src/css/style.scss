@@ -18,20 +18,7 @@ $selection-bg-color : #0af;
 $selection-color    : #fff;
 
 
-//
-// cleadfix
-//
-%clearfix {
-  &:after {
-    content: ".";
-    display: block;
-    visibility: hidden;
-    height: 0.1px;
-    font-size: 0.1em;
-    line-height: 0;
-    clear: both;
-  }
-}
+
 
 
 /*----------------------------------------------------
@@ -62,6 +49,21 @@ body {
 
 input, textarea {
   font-family: $default-font;
+}
+
+//
+// cleadfix
+//
+%clearfix {
+  &:after {
+    content: ".";
+    display: block;
+    visibility: hidden;
+    height: 0.1px;
+    font-size: 0.1em;
+    line-height: 0;
+    clear: both;
+  }
 }
 
 .clearfix {
@@ -147,6 +149,23 @@ a {
 .main {
 }
 
+/*----------------------------------------------------
+
+  .footer
+====================================================*/
+.footer {
+  background: #efefef;
+
+
+  .global_nav {
+    float: right;
+
+    .nav_list {
+      float: left;
+      margin-left: 10px;
+    }
+  }
+}
 
 
 @import "_print";
