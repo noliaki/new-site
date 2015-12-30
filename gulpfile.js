@@ -1,141 +1,121 @@
-;(function(){
-  "use strict";
+// =============================================
+// gulp | plug-in
+// 
+var gulp        = require('gulp'),
+    sass        = require('gulp-sass'),
+    cssnext     = require('gulp-cssnext'),
+    imagemin    = require('gulp-imagemin'),
+    pngquant    = require('imagemin-pngquant'),
+    rimraf      = require('rimraf'),
+    ejs         = require('gulp-ejs'),
+    plumber     = require('gulp-plumber'),
+    runSequence = require('run-sequence'),
+    uglify      = require('gulp-uglify'),
+    browserSync = require('browser-sync').create();
 
-  // =============================================
-  // gulp | plig-in
-  // 
-  var gulp           = require("gulp"),
-      sass           = require("gulp-ruby-sass"),
-      imagemin       = require("gulp-imagemin"),
-      pngquant       = require("imagemin-pngquant"),
-      yuicompressor  = require("gulp-yuicompressor"),
-      rimraf         = require('rimraf'),
-      ejs            = require('gulp-ejs'),
-      plumber        = require("gulp-plumber"),
-      runSequence    = require('run-sequence'),
-      coffee         = require('gulp-coffee'),
-      browserSync    = require('browser-sync').create();
+// =============================================
+// path
+// 
+var path = {
+  src   : './src',
+  build : './build'
+}
 
-  // =============================================
-  // path
-  // 
-  var srcDir   = "./src",
-      buildDir = "./build";
-
-  // =============================================
-  // browser-sync
-  // 
-  gulp.task("browser-sync", function() {
-    browserSync.init({
-      server: {
-        baseDir: buildDir
-      }
-    });
+// =============================================
+// browser-sync
+// 
+gulp.task('browser-sync', () => {
+  browserSync.init({
+    server : {
+      baseDir : path.build
+    }
   });
+});
 
-  // =============================================
-  // sass
-  // 
-  gulp.task("sass", function() {
-    return sass(srcDir, {
-             "style": "nested",
-             "compass": true
-           })
-           .pipe(plumber())
-           .on('error', function (err) {
-             console.error('Error!', err.message);
-           })
-           .pipe(gulp.dest(buildDir))
-           .pipe(browserSync.stream());
-  });
+// =============================================
+// sass
+// 
+gulp.task('sass', () => {
+  gulp.src([path.src + '/**/*.scss'])
+      .pipe(plumber())
+      .pipe(sass())
+      .on('error', (error) => {
+        console.error('Error!', error.message)
+      })
+      .pipe(cssnext({
+        compress : true,
+        browsers : 'last 2 versions'
+      }))
+      .pipe(gulp.dest(path.build))
+      .pipe(browserSync.stream());
+ });
 
-  // =============================================
-  // image min
-  // 
-  gulp.task("imagemin", function(){
-    gulp.src([srcDir + "/**/*.+(jpg|jpeg|png|gif|svg)"])
-        .pipe(plumber())
-        .pipe(imagemin())
-        .pipe(gulp.dest(buildDir));
-  });
+// =============================================
+// image min
+// 
+gulp.task('imagemin', () => {
+  gulp.src([path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'])
+      .pipe(plumber())
+      .pipe(imagemin())
+      .pipe(gulp.dest(path.build));
+});
 
+// =============================================
+// js min
+// 
+gulp.task('jsmin', () => {
+  gulp.src([path.src + '/**/*.js'])
+      .pipe(plumber())
+      .pipe(uglify())
+      .on('error', (error) => {
+        console.error('Error!', error.message);
+      })
+      .pipe(gulp.dest(path.build))
+      .pipe(browserSync.stream());
+});
 
-  // =============================================
-  // coffee
-  // 
-  gulp.task("coffee", function() {
-    gulp.src([srcDir + "/**/*.coffee"])
-        .pipe(plumber())
-        .pipe(coffee())
-        .on('error', function (err) {
-          console.error('Error!', err.message);
-        })
-        .pipe(gulp.dest(buildDir))
-        .pipe(browserSync.stream());
-  });
+// =============================================
+// copy
+// 
+gulp.task('copy', () => {
+  gulp.src([
+        path.src + '/**/*',
+        '!' + path.src + '/**/*.js',
+        '!' + path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
+        '!' + path.src + '/**/*.scss',
+        '!' + path.src + '/_*/',
+        '!' + path.src + '/**/_*'
+      ])
+      .pipe(gulp.dest(path.build));
+});
 
+// =============================================
+// clean dir
+// 
+gulp.task('clean', (callBack) => {
+  rimraf(path.build, callBack);
+});
 
-  // =============================================
-  // copy
-  // 
-  gulp.task("copy", function() {   
-    gulp.src([
-          srcDir + "/**/*",
-          "!" + srcDir + "/**/*.coffee",
-          "!" + srcDir + "/**/*.ejs",
-          "!" + srcDir + "/**/*.+(jpg|jpeg|png|gif|svg)",
-          "!" + srcDir + "/**/*.scss",
-          "!" + srcDir + "/_*/",
-          "!" + srcDir + "/**/_*"
-        ])
-        .pipe(gulp.dest(buildDir));
-  });
+// =============================================
+// gulp default task
+// 
+gulp.task('default', () => {
+  runSequence(
+    'clean',
+    ['copy', 'sass', 'imagemin', 'jsmin'],
+    'browser-sync'
+  );
+  gulp.watch([path.src + '/**/*.js'], ['jsmin']);
+  gulp.watch([path.src + '/**/*.scss'], ['sass']);
+  gulp.watch([path.src + '/**/*.html', path.src + '/**/*.css'], ['copy']);
+});
 
-  // =============================================
-  // ejs
-  // 
-  gulp.task("ejs", function() {  
-    gulp.src([
-          srcDir + "/**/*.ejs",
-          "!" + srcDir + "/**/_*.ejs"
-        ])
-        .pipe(plumber())
-        .pipe(ejs())
-        .pipe(gulp.dest(buildDir))
-        .pipe(browserSync.stream());
-  });
-
-  // =============================================
-  // clean dir
-  // 
-  gulp.task("clean", function(callBack) {
-    rimraf(buildDir, callBack);
-  });
-
-  // =============================================
-  // gulp default task
-  // 
-  gulp.task("default", function(){
-    runSequence(
-      "clean",
-      ["copy", "ejs", "sass", "imagemin", "coffee"],
-      "browser-sync"
-    );
-    gulp.watch([srcDir + "/**/*.coffee"], ["coffee"]);
-    gulp.watch([srcDir + "/**/*.scss"], ["sass"]);
-    gulp.watch([srcDir + "/**/*.ejs"], ["ejs"]);
-    gulp.watch([srcDir + "/**/*.html", srcDir + "/**/*.css"], ["copy"]);
-
-  });
-
-  // =============================================
-  // gulp build
-  // 
-  gulp.task("build", function(){
-    runSequence(
-      "clean",
-      ["copy", "ejs", "sass", "imagemin", "coffee"]
-    );
-  });
-
-})();
+// =============================================
+// gulp build
+// 
+gulp.task('build', () => {
+  runSequence(
+    'clean',
+    ['copy', 'sass', 'imagemin', 'jsmin']
+  );
+});
