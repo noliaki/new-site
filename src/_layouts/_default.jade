@@ -10,6 +10,9 @@ include /_partial/_head
 
 body#side-id
   .main
-    block content
+    include /_partial/_header
+    .content
+      block content
+    include /_partial/_footer
 
 </html>
