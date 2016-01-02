@@ -1,0 +1,56 @@
+html {
+  overflow-y: scroll;
+  font-size: $size-font-base;
+}
+
+body {
+  font-family: $font-family-base;
+  color: $color-font;
+  line-height: $line-height-base;
+  min-width: $width-inner;
+  text-size-adjust: 100%;
+}
+
+
+
+// ----------------------------------------------------
+// cleadfix
+//
+.clearfix {
+  @include clearfix;
+}
+
+// ----------------------------------------------------
+// select color
+//
+::selection {
+  background: $color-selection-bg;
+  color: $color-selection-font;
+}
+
+// ----------------------------------------------------
+// select color
+//
+a {
+  color: $color-link;
+
+  &:link {
+    color: $color-link;
+  }
+
+  &:visited {
+    color: $color-link-visited;
+  }
+
+  &:hover {
+    color: $color-link-hover;
+  }
+
+  &:active {
+    color: $color-link-active;
+  }
+
+  &:hover > img {
+    opacity: $opacity-hover-img;
+  }
+}
