@@ -1,9 +1,11 @@
-html {
-  overflow-y: scroll;
-}
-
+html,
 body,
 div,
+span,
+applet,
+object,
+caption,
+iframe,
 dl,
 dt,
 dd,
@@ -20,25 +22,56 @@ pre,
 form,
 fieldset,
 input,
+label,
+legend,
 textarea,
 p,
-blockquote,
-th,
-td {
-  margin: 0;
-  padding: 0;
-}
-
+a,
+em,
+strong,
 address,
-caption,
 cite,
 code,
 dfn,
-em,
-strong,
+small,
+img,
+blockquote,
+table,
+thead,
+tbody,
+tfoot,
+tr,
 th,
-var {
-  font-style: normal;
+td,
+var,
+abbr,
+acronym,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 
 table {
@@ -61,31 +94,6 @@ embed {
   vertical-align: top;
 }
 
-hr,
-legend {
-  display: none;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-size: 100%;
-}
-
-img,
-abbr,
-acronym,
-fieldset {
-  border: 0;
-}
-
-ul li {
-  list-style-type: none;
-}
-
 a,
 label {
   cursor: pointer;
@@ -93,8 +101,6 @@ label {
 
 img {
   vertical-align: bottom;
-  margin: 0;
-  padding: 0;
 }
 
 button::-moz-focus-inner,
