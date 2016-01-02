@@ -1,5 +1,26 @@
 # for NEW SITE
 
+## 推奨環境
+
+```sh
+$ node -v
+v5.3.0
+
+$ npm -v
+3.3.12
+```
+
+## 構築手順
+
+```sh
+$ npm install -g gulp
+$ git clone git@github.com:noliaki/new-site.git
+$ cd new-site
+$ npm install
+$ gulp
+```
+
+
 ## HTML
 
 jade or haml
