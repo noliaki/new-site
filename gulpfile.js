@@ -2,12 +2,13 @@
 // gulp | plug-in
 // 
 var gulp        = require('gulp'),
+    jade        = require('gulp-jade'),
     sass        = require('gulp-sass'),
     cssnext     = require('gulp-cssnext'),
     imagemin    = require('gulp-imagemin'),
     pngquant    = require('imagemin-pngquant'),
     rimraf      = require('rimraf'),
-    ejs         = require('gulp-ejs'),
+    babel       = require('gulp-babel'),
     plumber     = require('gulp-plumber'),
     runSequence = require('run-sequence'),
     uglify      = require('gulp-uglify'),
@@ -19,7 +20,7 @@ var gulp        = require('gulp'),
 var path = {
   src   : './src',
   build : './build'
-}
+};
 
 // =============================================
 // browser-sync
@@ -33,6 +34,20 @@ gulp.task('browser-sync', () => {
 });
 
 // =============================================
+// jade
+// 
+gulp.task('jade', () => {
+  gulp.src([path.src + '/**/*.jade', '!' + path.src + '/**/_*'])
+      .pipe(plumber())
+      .pipe(jade({
+        pretty: true,
+        basedir: path.src
+      }))
+      .pipe(gulp.dest(path.build))
+      .pipe(browserSync.stream());
+ });
+
+// =============================================
 // sass
 // 
 gulp.task('sass', () => {
@@ -43,8 +58,7 @@ gulp.task('sass', () => {
         console.error('Error!', error.message)
       })
       .pipe(cssnext({
-        compress : true,
-        browsers : 'last 2 versions'
+        browsers : '> 1% in JP, last 2 versions, ie >= 7, last 2 Firefox versions'
       }))
       .pipe(gulp.dest(path.build))
       .pipe(browserSync.stream());
@@ -61,12 +75,14 @@ gulp.task('imagemin', () => {
 });
 
 // =============================================
-// js min
+// babel
 // 
-gulp.task('jsmin', () => {
+gulp.task('babel', () => {
   gulp.src([path.src + '/**/*.js'])
       .pipe(plumber())
-      .pipe(uglify())
+      .pipe(babel({
+        presets: ['es2015']
+      }))
       .on('error', (error) => {
         console.error('Error!', error.message);
       })
@@ -80,6 +96,7 @@ gulp.task('jsmin', () => {
 gulp.task('copy', () => {
   gulp.src([
         path.src + '/**/*',
+        '!' + path.src + '/**/*.jade',
         '!' + path.src + '/**/*.js',
         '!' + path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
         '!' + path.src + '/**/*.scss',
@@ -102,10 +119,12 @@ gulp.task('clean', (callBack) => {
 gulp.task('default', () => {
   runSequence(
     'clean',
-    ['copy', 'sass', 'imagemin', 'jsmin'],
+    ['copy', 'jade', 'sass', 'imagemin', 'babel'],
     'browser-sync'
   );
-  gulp.watch([path.src + '/**/*.js'], ['jsmin']);
+
+  gulp.watch([path.src + '/**/*.jade'], ['jade']);
+  gulp.watch([path.src + '/**/*.js'], ['babel']);
   gulp.watch([path.src + '/**/*.scss'], ['sass']);
   gulp.watch([path.src + '/**/*.html', path.src + '/**/*.css'], ['copy']);
 });
@@ -116,6 +135,6 @@ gulp.task('default', () => {
 gulp.task('build', () => {
   runSequence(
     'clean',
-    ['copy', 'sass', 'imagemin', 'jsmin']
+    ['copy', 'jade', 'sass', 'imagemin', 'babel']
   );
 });

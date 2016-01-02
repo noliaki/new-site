@@ -1,9 +1,8 @@
 @charset "utf-8";
 
 @import "_variables",
+        "_mixin",
         "_reset",
-        "_layout",
-        "_header",
-        "_footer",
+        "_base",
         "_main",
         "_print";

@@ -1,77 +1,44 @@
 ;(function(window, document, $){
-/** ===============================================================================================
- * ooooooooo.                                                .                                 .
- * `888   `Y88.                                            .o8                               .o8
- *  888   .d88'  .ooooo.  ooo. .oo.    .ooooo.   .oooo.  .o888oo     ooo. .oo.    .ooooo.  .o888oo
- *  888ooo88P'  d88' `88b `888P"Y88b  d88' `88b `P  )88b   888       `888P"Y88b  d88' `88b   888
- *  888`88b.    888ooo888  888   888  888   888  .oP"888   888        888   888  888ooo888   888
- *  888  `88b.  888    .o  888   888  888   888 d8(  888   888 . .o.  888   888  888    .o   888 .
- * o888o  o888o `Y8bod8P' o888o o888o `Y8bod8P' `Y888""8o  "888" Y8P o888o o888o `Y8bod8P'   "888"
- * ===============================================================================================*/
-
 "use strict";
 
-var rnt = $.rnt = (function(){
+var rnt = $.rnt = (() => {
 
   // ---------------------------------
   // variables
   // 
-  var UA     = navigator.userAgent,
-      domain = location.hostname;
+  const UA     = navigator.userAgent,
+        domain = location.hostname;
 
   // ---------------------------------
   // functions
   //     
-  var isMobile = function(){
-    var useragents = [
-          "iPhone",         //  Apple iPhone
-          "iPod",           //  Apple iPod touch
-          "Android",        //  1.5+ Android
-          "dream",          //  Pre 1.5 Android
-          "CUPCAKE",        //  1.5+ Android
-          "blackberry9500", //  Storm
-          "blackberry9530", //  Storm
-          "blackberry9520", //  Storm v2
-          "blackberry9550", //  Storm v2
-          "blackberry9800", //  Torch
-          "webOS",          //  Palm Pre Experimental
-          "incognito",      //  Other iPhone browser
-          "webmate"         //  Other iPhone browser
+  let isMobile = () => {
+    let useragents = [
+          "iPhone",          //  Apple iPhone
+          "iPod",            //  Apple iPod touch
+          "Android.*Mobile", //  1.5+ Android
+          "dream",           //  Pre 1.5 Android
+          "CUPCAKE",         //  1.5+ Android
+          "blackberry9500",  //  Storm
+          "blackberry9530",  //  Storm
+          "blackberry9520",  //  Storm v2
+          "blackberry9550",  //  Storm v2
+          "blackberry9800",  //  Torch
+          "webOS",           //  Palm Pre Experimental
+          "incognito",       //  Other iPhone browser
+          "webmate"          //  Other iPhone browser
         ],
-        pattern = new RegExp(useragents.join("|"), "i"),
-        i = -1,
-        len = arguments.length,
-        matchStr;
+        pattern = new RegExp(useragents.join("|"), "i");
+        
+    return pattern.test(UA);
+  };
 
-    for( ; ++ i < len; ){
-      useragents.push(arguments[i]);
-    }
+  let isIE = () => {
+    return /MSIE\s[0-9]+(\.[0-9])+/i.test(UA);
+  };
 
-    pattern = new RegExp(useragents.join("|"), "i");
-    matchStr = UA.match(pattern);
-
-    return matchStr? matchStr[0] : false;
-  },// isMobile
-
-  isIE = function(){
-    var pattern,
-        matchVersion;
-
-    if(arguments.length) {
-      for(var i = -1, len = arguments.length; ++ i < len;){
-        pattern = new RegExp("MSIE\s" + arguments[i], "i");
-        if(pattern.test(UA)) return true;
-      }
-      return false;
-    }
-
-    pattern = new RegExp("MSIE\s[0-9]+\.[0-9]+", "i");
-    matchVersion = UA.match(pattern);
-    return matchVersion? matchVersion[0] : false;
-  },// isIE
-
-  rollOver = function(option){
-    var param = $.extend({
+  let rollOver = option => {
+    let param = $.extend({
           "fixClass"  : "current",
           "onName"    : "_on",
           "offName"   : "_off",
