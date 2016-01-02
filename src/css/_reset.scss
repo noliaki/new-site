@@ -74,6 +74,21 @@ video {
   vertical-align: baseline;
 }
 
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+main,
+nav,
+section {
+  display: block;
+}
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
