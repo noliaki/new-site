@@ -20,19 +20,20 @@ $ npm install
 $ gulp
 ```
 
-
 ## HTML
 
-jade or haml
+### jade
 
 * 記述量の削減
 * レイアウト・テンプレート機能
 * 閉じタグミスを排除
 * コードの平坦化
+* hamlよりinclude、extend機能など充実してた
+（gulp-ruby-hamlがwindowsでどうなの？ってのもある）
 
 ## CSS
 
-SASS
+### SASS
 
 * 記述量の削減
 
@@ -156,6 +157,7 @@ ul .list {
 #### ユニバーサルセレクタは使用しない
 
 * 可読性を重視
+* 意図しない要素へ影響させない
 
 ```css
 /* NG */
