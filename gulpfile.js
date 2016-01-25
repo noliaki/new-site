@@ -37,7 +37,7 @@ gulp.task('browser-sync', () => {
 // jade
 // 
 gulp.task('jade', () => {
-  gulp.src([path.src + '/**/*.jade', '!' + path.src + '/**/_*'])
+  return gulp.src([path.src + '/**/*.jade', '!' + path.src + '/**/_*'])
       .pipe(plumber())
       .pipe(jade({
         pretty: true,
@@ -51,7 +51,7 @@ gulp.task('jade', () => {
 // sass
 // 
 gulp.task('sass', () => {
-  gulp.src([path.src + '/**/*.scss'])
+  return gulp.src([path.src + '/**/*.scss'])
       .pipe(plumber())
       .pipe(sass())
       .on('error', (error) => {
@@ -68,7 +68,7 @@ gulp.task('sass', () => {
 // image min
 // 
 gulp.task('imagemin', () => {
-  gulp.src([path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'])
+  return gulp.src([path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'])
       .pipe(plumber())
       .pipe(imagemin())
       .pipe(gulp.dest(path.build));
@@ -78,7 +78,7 @@ gulp.task('imagemin', () => {
 // babel
 // 
 gulp.task('babel', () => {
-  gulp.src([path.src + '/**/*.js'])
+  return gulp.src([path.src + '/**/*.js'])
       .pipe(plumber())
       .pipe(babel({
         presets: ['es2015']
@@ -94,7 +94,7 @@ gulp.task('babel', () => {
 // copy
 // 
 gulp.task('copy', () => {
-  gulp.src([
+  return gulp.src([
         path.src + '/**/*',
         '!' + path.src + '/**/*.jade',
         '!' + path.src + '/**/*.js',
@@ -131,10 +131,11 @@ gulp.task('default', () => {
 
 // =============================================
 // gulp build
-// 
-gulp.task('build', () => {
+//
+gulp.task('build', (callBack) => {
   runSequence(
     'clean',
-    ['copy', 'jade', 'sass', 'imagemin', 'babel']
+    ['copy', 'jade', 'sass', 'imagemin', 'babel'],
+    callBack
   );
 });
