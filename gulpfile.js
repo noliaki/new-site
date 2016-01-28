@@ -38,13 +38,13 @@ gulp.task('browser-sync', () => {
 // 
 gulp.task('jade', () => {
   return gulp.src([path.src + '/**/*.jade', '!' + path.src + '/**/_*'])
-      .pipe(plumber())
-      .pipe(jade({
-        pretty: true,
-        basedir: path.src
-      }))
-      .pipe(gulp.dest(path.build))
-      .pipe(browserSync.stream());
+         .pipe(plumber())
+         .pipe(jade({
+         pretty: true,
+           basedir: path.src
+         }))
+         .pipe(gulp.dest(path.build))
+         .pipe(browserSync.stream());
  });
 
 // =============================================
@@ -52,16 +52,16 @@ gulp.task('jade', () => {
 // 
 gulp.task('sass', () => {
   return gulp.src([path.src + '/**/*.scss'])
-      .pipe(plumber())
-      .pipe(sass())
-      .on('error', (error) => {
-        console.error('Error!', error.message)
-      })
-      .pipe(cssnext({
-        browsers : '> 1% in JP, last 2 versions, ie >= 7, last 2 Firefox versions'
-      }))
-      .pipe(gulp.dest(path.build))
-      .pipe(browserSync.stream());
+         .pipe(plumber())
+         .pipe(sass())
+         .on('error', (error) => {
+           console.error('Error!', error.message)
+         })
+         .pipe(cssnext({
+           browsers : '> 1% in JP, last 2 versions, ie >= 7, last 2 Firefox versions'
+         }))
+         .pipe(gulp.dest(path.build))
+         .pipe(browserSync.stream());
  });
 
 // =============================================
@@ -69,9 +69,9 @@ gulp.task('sass', () => {
 // 
 gulp.task('imagemin', () => {
   return gulp.src([path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'])
-      .pipe(plumber())
-      .pipe(imagemin())
-      .pipe(gulp.dest(path.build));
+         .pipe(plumber())
+         .pipe(imagemin())
+         .pipe(gulp.dest(path.build));
 });
 
 // =============================================
@@ -79,15 +79,15 @@ gulp.task('imagemin', () => {
 // 
 gulp.task('babel', () => {
   return gulp.src([path.src + '/**/*.js'])
-      .pipe(plumber())
-      .pipe(babel({
-        presets: ['es2015']
-      }))
-      .on('error', (error) => {
-        console.error('Error!', error.message);
-      })
-      .pipe(gulp.dest(path.build))
-      .pipe(browserSync.stream());
+         .pipe(plumber())
+         .pipe(babel({
+           presets: ['es2015']
+         }))
+         .on('error', (error) => {
+           console.error('Error!', error.message);
+         })
+         .pipe(gulp.dest(path.build))
+         .pipe(browserSync.stream());
 });
 
 // =============================================
@@ -95,15 +95,15 @@ gulp.task('babel', () => {
 // 
 gulp.task('copy', () => {
   return gulp.src([
-        path.src + '/**/*',
-        '!' + path.src + '/**/*.jade',
-        '!' + path.src + '/**/*.js',
-        '!' + path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
-        '!' + path.src + '/**/*.scss',
-        '!' + path.src + '/_*/',
-        '!' + path.src + '/**/_*'
-      ])
-      .pipe(gulp.dest(path.build));
+           path.src + '/**/*',
+           '!' + path.src + '/**/*.jade',
+           '!' + path.src + '/**/*.js',
+           '!' + path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
+           '!' + path.src + '/**/*.scss',
+           '!' + path.src + '/_*/',
+           '!' + path.src + '/**/_*'
+         ])
+         .pipe(gulp.dest(path.build));
 });
 
 // =============================================
