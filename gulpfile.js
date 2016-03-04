@@ -1,18 +1,18 @@
 // =============================================
 // gulp | plug-in
 // 
-const gulp        = require('gulp'),
-      jade        = require('gulp-jade'),
-      sass        = require('gulp-sass'),
-      cssnext     = require('gulp-cssnext'),
-      imagemin    = require('gulp-imagemin'),
-      pngquant    = require('imagemin-pngquant'),
-      rimraf      = require('rimraf'),
-      babel       = require('gulp-babel'),
-      plumber     = require('gulp-plumber'),
-      runSequence = require('run-sequence'),
-      uglify      = require('gulp-uglify'),
-      browserSync = require('browser-sync').create();
+const gulp         = require('gulp'),
+      jade         = require('gulp-jade'),
+      sass         = require('gulp-sass'),
+      autoprefixer = require('gulp-autoprefixer'),
+      imagemin     = require('gulp-imagemin'),
+      pngquant     = require('imagemin-pngquant'),
+      rimraf       = require('rimraf'),
+      babel        = require('gulp-babel'),
+      plumber      = require('gulp-plumber'),
+      runSequence  = require('run-sequence'),
+      uglify       = require('gulp-uglify'),
+      browserSync  = require('browser-sync').create();
 
 // =============================================
 // path
@@ -57,8 +57,13 @@ gulp.task('sass', () => {
     .on('error', (error) => {
       console.error('Error!', error.message)
     })
-    .pipe(cssnext({
-      browsers : '> 1% in JP, last 2 versions, ie >= 7, last 2 Firefox versions'
+    .pipe(autoprefixer({
+      browsers: [
+        '> 1% in JP',
+        'last 2 versions',
+        'ie >= 7',
+        'last 2 Firefox versions'
+      ]
     }))
     .pipe(gulp.dest(path.build))
     .pipe(browserSync.stream());
