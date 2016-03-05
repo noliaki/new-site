@@ -23,6 +23,18 @@ const path = {
 };
 
 // =============================================
+// prefix option
+// 
+const autoprefixerOpt = {
+  browsers: [
+    '> 1% in JP',
+    'last 2 versions',
+    'ie >= 7',
+    'last 2 Firefox versions'
+  ]
+};
+
+// =============================================
 // browser-sync
 // 
 gulp.task('browser-sync', () => {
@@ -57,14 +69,18 @@ gulp.task('sass', () => {
     .on('error', (error) => {
       console.error('Error!', error.message)
     })
-    .pipe(autoprefixer({
-      browsers: [
-        '> 1% in JP',
-        'last 2 versions',
-        'ie >= 7',
-        'last 2 Firefox versions'
-      ]
-    }))
+    .pipe(autoprefixer(autoprefixerOpt))
+    .pipe(gulp.dest(path.build))
+    .pipe(browserSync.stream());
+ });
+
+// =============================================
+// prefix-css
+// 
+gulp.task('prefix-css', () => {
+  return gulp.src([path.src + '/**/*.css'])
+    .pipe(plumber())
+    .pipe(autoprefixer(autoprefixerOpt))
     .pipe(gulp.dest(path.build))
     .pipe(browserSync.stream());
  });
@@ -105,6 +121,7 @@ gulp.task('copy', () => {
       '!' + path.src + '/**/*.js',
       '!' + path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
       '!' + path.src + '/**/*.scss',
+      '!' + path.src + '/**/*.css',
       '!' + path.src + '/_*/',
       '!' + path.src + '/**/_*'
     ])
