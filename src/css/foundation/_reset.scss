@@ -1,51 +1,61 @@
+/*---------------------------------------
+  リセットCSS(編集不要)
+----------------------------------------*/
+@-ms-viewport {
+  width: device-width;
+}
+
+html {
+  text-size-adjust: 100%;
+}
+
 html,
 body,
 div,
 span,
-applet,
 object,
-caption,
 iframe,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
-pre,
-form,
-fieldset,
-input,
-label,
-legend,
-textarea,
 p,
+blockquote,
+pre,
 a,
-em,
-strong,
+abbr,
 address,
 cite,
 code,
 dfn,
-small,
+em,
 img,
-blockquote,
+ins,
+q,
+strong,
+small,
+sub,
+sup,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
 table,
-thead,
+caption,
 tbody,
 tfoot,
+thead,
 tr,
 th,
 td,
-var,
-abbr,
-acronym,
 article,
 aside,
 canvas,
@@ -68,10 +78,8 @@ audio,
 video {
   margin: 0;
   padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
   vertical-align: baseline;
+  border: 0;
 }
 
 article,
@@ -83,19 +91,32 @@ footer,
 header,
 hgroup,
 menu,
-main,
 nav,
-section {
+section,
+main {
   display: block;
 }
 
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+  font-style: normal;
+}
+
 table {
-  border-collapse: collapse;
   border-spacing: 0;
+  border-collapse: collapse;
 }
 
 caption,
-th {
+th,
+td {
   text-align: left;
 }
 
@@ -109,17 +130,45 @@ embed {
   vertical-align: top;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+}
+
+img,
+abbr,
+acronym,
+fieldset {
+  border: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
 a,
 label {
   cursor: pointer;
 }
 
+a {
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}
+
 img {
+  max-width: 100%;
   vertical-align: bottom;
 }
 
 button::-moz-focus-inner,
 input::-moz-focus-inner {
-  border: 0;
   padding: 0;
+  border: 0;
 }

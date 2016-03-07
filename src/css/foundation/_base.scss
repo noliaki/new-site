@@ -4,10 +4,11 @@ html {
 }
 
 body {
-  font-family: $font-family-base;
-  color: $color-font;
-  line-height: $line-height-base;
   min-width: $width-inner;
+  color: $color-font;
+  font-family: $font-family-base;
+  line-height: $line-height-base;
+
   text-size-adjust: 100%;
 }
 
@@ -24,8 +25,8 @@ body {
 // select color
 //
 ::selection {
-  background: $color-selection-bg;
   color: $color-selection-font;
+  background: $color-selection-bg;
 }
 
 // ----------------------------------------------------
