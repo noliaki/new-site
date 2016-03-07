@@ -1,9 +1,10 @@
 // =============================================
 // gulp | plug-in
-// 
+//
 const gulp         = require('gulp'),
       jade         = require('gulp-jade'),
       sass         = require('gulp-sass'),
+      csscomb      = require('gulp-csscomb'),
       autoprefixer = require('gulp-autoprefixer'),
       imagemin     = require('gulp-imagemin'),
       pngquant     = require('imagemin-pngquant'),
@@ -16,7 +17,7 @@ const gulp         = require('gulp'),
 
 // =============================================
 // path
-// 
+//
 const path = {
   src   : './src',
   build : './build'
@@ -24,7 +25,7 @@ const path = {
 
 // =============================================
 // prefix option
-// 
+//
 const autoprefixerOpt = {
   browsers: [
     '> 1% in JP',
@@ -36,7 +37,7 @@ const autoprefixerOpt = {
 
 // =============================================
 // browser-sync
-// 
+//
 gulp.task('browser-sync', () => {
   browserSync.init({
     server : {
@@ -47,7 +48,7 @@ gulp.task('browser-sync', () => {
 
 // =============================================
 // jade
-// 
+//
 gulp.task('jade', () => {
   return gulp.src([path.src + '/**/*.jade', '!' + path.src + '/**/_*'])
     .pipe(plumber())
@@ -59,10 +60,24 @@ gulp.task('jade', () => {
     .pipe(browserSync.stream());
  });
 
+ // =============================================
+ // csscomb
+ //
+ gulp.task('csscomb', () => {
+   return gulp.src([
+       path.src + '/**/*.css',
+       path.src + '/**/*.scss',
+       '!' + path.src + '/**/_variables.scss'
+     ])
+     .pipe(plumber())
+     .pipe(csscomb())
+     .pipe(gulp.dest(path.src));
+  });
+
 // =============================================
 // sass
-// 
-gulp.task('sass', () => {
+//
+gulp.task('sass', ['csscomb'], () => {
   return gulp.src([path.src + '/**/*.scss'])
     .pipe(plumber())
     .pipe(sass())
@@ -76,7 +91,7 @@ gulp.task('sass', () => {
 
 // =============================================
 // prefix-css
-// 
+//
 gulp.task('prefix-css', () => {
   return gulp.src([path.src + '/**/*.css'])
     .pipe(plumber())
@@ -87,7 +102,7 @@ gulp.task('prefix-css', () => {
 
 // =============================================
 // image min
-// 
+//
 gulp.task('imagemin', () => {
   return gulp.src([path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'])
     .pipe(plumber())
@@ -97,7 +112,7 @@ gulp.task('imagemin', () => {
 
 // =============================================
 // babel
-// 
+//
 gulp.task('babel', () => {
   return gulp.src([path.src + '/**/*.js'])
     .pipe(plumber())
@@ -113,7 +128,7 @@ gulp.task('babel', () => {
 
 // =============================================
 // copy
-// 
+//
 gulp.task('copy', () => {
   return gulp.src([
       path.src + '/**/*',
@@ -130,17 +145,18 @@ gulp.task('copy', () => {
 
 // =============================================
 // clean dir
-// 
+//
 gulp.task('clean', (callBack) => {
   rimraf(path.build, callBack);
 });
 
 // =============================================
 // gulp default task
-// 
+//
 gulp.task('default', () => {
   runSequence(
     'clean',
+    'prefix-css',
     ['copy', 'jade', 'sass', 'imagemin', 'babel'],
     'browser-sync'
   );
@@ -148,7 +164,8 @@ gulp.task('default', () => {
   gulp.watch([path.src + '/**/*.jade'], ['jade']);
   gulp.watch([path.src + '/**/*.js'], ['babel']);
   gulp.watch([path.src + '/**/*.scss'], ['sass']);
-  gulp.watch([path.src + '/**/*.html', path.src + '/**/*.css'], ['copy']);
+  gulp.watch([path.src + '/**/*.css'], ['prefix-css']);
+  gulp.watch([path.src + '/**/*.html'], ['copy']);
 });
 
 // =============================================
@@ -157,6 +174,7 @@ gulp.task('default', () => {
 gulp.task('build', (callBack) => {
   runSequence(
     'clean',
+    'prefix-css',
     ['copy', 'jade', 'sass', 'imagemin', 'babel'],
     callBack
   );
