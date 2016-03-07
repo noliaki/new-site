@@ -33,6 +33,8 @@ $ gulp
 
 ## CSS
 
+[FLOCSS](https://github.com/hiloki/flocss)を採用
+
 ### SASS
 
 * 記述量の削減
