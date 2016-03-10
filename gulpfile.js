@@ -28,9 +28,9 @@ const path = {
 //
 const autoprefixerOpt = {
   browsers: [
-    '> 1% in JP',
+    '> 1% in JP'     ,
     'last 2 versions',
-    'ie >= 7',
+    'ie >= 7'        ,
     'last 2 Firefox versions'
   ]
 };
@@ -65,7 +65,7 @@ gulp.task('jade', () => {
  //
  gulp.task('csscomb', () => {
    return gulp.src([
-       path.src + '/**/*.css',
+       path.src + '/**/*.css' ,
        path.src + '/**/*.scss',
        '!' + path.src + '/**/_variables.scss'
      ])
@@ -131,13 +131,13 @@ gulp.task('babel', () => {
 //
 gulp.task('copy', () => {
   return gulp.src([
-      path.src + '/**/*',
-      '!' + path.src + '/**/*.jade',
-      '!' + path.src + '/**/*.js',
+      path.src + '/**/*'                              ,
+      '!' + path.src + '/**/*.jade'                   ,
+      '!' + path.src + '/**/*.js'                     ,
       '!' + path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
-      '!' + path.src + '/**/*.scss',
-      '!' + path.src + '/**/*.css',
-      '!' + path.src + '/_*/',
+      '!' + path.src + '/**/*.scss'                   ,
+      '!' + path.src + '/**/*.css'                    ,
+      '!' + path.src + '/_*/'                         ,
       '!' + path.src + '/**/_*'
     ])
     .pipe(gulp.dest(path.build));
@@ -155,16 +155,16 @@ gulp.task('clean', (callBack) => {
 //
 gulp.task('default', () => {
   runSequence(
-    'clean',
+    'clean'     ,
     'prefix-css',
-    ['copy', 'jade', 'sass', 'imagemin', 'babel'],
+    ['copy'     , 'jade', 'sass', 'imagemin', 'babel'],
     'browser-sync'
   );
 
   gulp.watch([path.src + '/**/*.jade'], ['jade']);
-  gulp.watch([path.src + '/**/*.js'], ['babel']);
+  gulp.watch([path.src + '/**/*.js']  , ['babel']);
   gulp.watch([path.src + '/**/*.scss'], ['sass']);
-  gulp.watch([path.src + '/**/*.css'], ['prefix-css']);
+  gulp.watch([path.src + '/**/*.css'] , ['prefix-css']);
   gulp.watch([path.src + '/**/*.html'], ['copy']);
 });
 
@@ -173,9 +173,9 @@ gulp.task('default', () => {
 //
 gulp.task('build', (callBack) => {
   runSequence(
-    'clean',
+    'clean'     ,
     'prefix-css',
-    ['copy', 'jade', 'sass', 'imagemin', 'babel'],
+    ['copy'     , 'jade', 'sass', 'imagemin', 'babel'],
     callBack
   );
 });

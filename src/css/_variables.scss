@@ -2,16 +2,16 @@
 // variables
 //
 
-$size-font-base        : 16px;
-$line-height-base      : 1.7;
-$font-family-base      : 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, '游ゴシック', YuGothic, sans-serif;
-$color-font            : #999;
-$color-link            : #0af;
-$color-link-visited    : scale_color( $color-link, $lightness: 30% );
-$color-link-hover      : scale_color( $color-link, $lightness: 50% );
-$color-link-active     : scale_color( $color-link, $lightness: 20% );
-$color-body            : #ccc;
-$color-selection-font  : #fff;
-$color-selection-bg    : #0af;
-$opacity-hover-img     : 0.7;
-$width-inner           : 500px;
+$size-font-base       : 16px;
+$line-height-base     : 1.7;
+$font-family-base     : 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, '游ゴシック', YuGothic, sans-serif;
+$color-font           : #999;
+$color-link           : #0af;
+$color-link-visited   : scale_color( $color-link, $lightness: 30% );
+$color-link-hover     : scale_color( $color-link, $lightness: 50% );
+$color-link-active    : scale_color( $color-link, $lightness: 20% );
+$color-body           : #ccc;
+$color-selection-font : #fff;
+$color-selection-bg   : #0af;
+$opacity-hover-img    : 0.7;
+$width-inner          : 500px;
