@@ -2,7 +2,7 @@
 // gulp | plug-in
 //
 const gulp         = require('gulp'),
-      jade         = require('gulp-jade'),
+      pug          = require('gulp-pug'),
       sass         = require('gulp-sass'),
       csscomb      = require('gulp-csscomb'),
       autoprefixer = require('gulp-autoprefixer'),
@@ -47,12 +47,12 @@ gulp.task('browser-sync', () => {
 });
 
 // =============================================
-// jade
+// pug
 //
-gulp.task('jade', () => {
-  return gulp.src([path.src + '/**/*.jade', '!' + path.src + '/**/_*'])
+gulp.task('pug', () => {
+  return gulp.src([path.src + '/**/*.pug', '!' + path.src + '/**/_*'])
     .pipe(plumber())
-    .pipe(jade({
+    .pipe(pug({
       pretty  : true,
       basedir : path.src
     }))
@@ -132,7 +132,7 @@ gulp.task('babel', () => {
 gulp.task('copy', () => {
   return gulp.src([
       path.src + '/**/*'                              ,
-      '!' + path.src + '/**/*.jade'                   ,
+      '!' + path.src + '/**/*.pug'                   ,
       '!' + path.src + '/**/*.js'                     ,
       '!' + path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
       '!' + path.src + '/**/*.scss'                   ,
@@ -157,11 +157,11 @@ gulp.task('default', () => {
   runSequence(
     'clean'     ,
     'prefix-css',
-    ['copy'     , 'jade', 'sass', 'imagemin', 'babel'],
+    ['copy', 'pug', 'sass', 'imagemin', 'babel'],
     'browser-sync'
   );
 
-  gulp.watch([path.src + '/**/*.jade'], ['jade']);
+  gulp.watch([path.src + '/**/*.pug'], ['pug']);
   gulp.watch([path.src + '/**/*.js']  , ['babel']);
   gulp.watch([path.src + '/**/*.scss'], ['sass']);
   gulp.watch([path.src + '/**/*.css'] , ['prefix-css']);
@@ -175,7 +175,7 @@ gulp.task('build', (callBack) => {
   runSequence(
     'clean'     ,
     'prefix-css',
-    ['copy'     , 'jade', 'sass', 'imagemin', 'babel'],
+    ['copy', 'pug', 'sass', 'imagemin', 'babel'],
     callBack
   );
 });

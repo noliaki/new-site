@@ -1,0 +1,25 @@
+//- ------------------------------------
+//- include local variables
+//-
+block variables
+
+doctype html
+html(lang="ja")
+
+  //- ------------------------------------
+  //- include head element
+  //-
+  include /_partial/_head.pug
+
+  //- ------------------------------------
+  //- begin body
+  //-
+  body#side-id
+    .main
+      //- include global header
+      include /_partial/_header.pug
+      .content
+        //- put content
+        block content
+      //- include global footer
+      include /_partial/_footer.pug
