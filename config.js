@@ -27,7 +27,7 @@ module.exports = {
   // serve
   browserSync: {
     server: {
-      baseDir: pathConfig.dist,
+      baseDir: pathConfig.dist
     },
     port: 3000,
     ghostMode: false,
@@ -36,13 +36,14 @@ module.exports = {
 
   // pug
   pug: {
-    pretty: true,
+    pretty: false,
     basedir: pathConfig.src,
+    locals: path
   },
 
   // styles
   sass: {
-    outputStyle: 'expanded',
+    outputStyle: 'compressed'
   },
   autoprefixer: {
     browsers: [
@@ -55,7 +56,7 @@ module.exports = {
 
   // scripts
   uglify: {
-    preserveComments: 'some',
+    preserveComments: 'some'
   },
   babel: {
     presets: ['es2015']

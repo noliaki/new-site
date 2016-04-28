@@ -75,7 +75,7 @@ gulp.task('sass', ['csscomb'], () => {
       config.path.src + '/**/*.scss'
     ])
     .pipe(plumber())
-    .pipe(sass())
+    .pipe(sass(config.sass))
     .on('error', (error) => {
       console.error('Error!', error.message)
     })
