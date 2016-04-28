@@ -1,33 +1,33 @@
 //- ------------------------------------
+//- extend
+//-
+extends /_layouts/_default.pug
+
+//- ------------------------------------
 //- variables this page
-//- 
+//-
 block variables
-  - var TITLE       = 'AWESOME TITLE';
-  - var DESCRIPTION = 'AWESOME DESCRIPTION';
-  - var KEYWORD     = 'AWESOME KEYWORD';
+  - const TITLE       = 'AWESOME TITLE';
+  - const DESCRIPTION = 'AWESOME DESCRIPTION';
+  - const KEYWORD     = 'AWESOME KEYWORD';
 
 //- ------------------------------------
 //- style this page
-//- 
+//-
 block style
   //- example
   link(rel="stylesheet", href="css/style.css")
 
 //- ------------------------------------
 //- script this page
-//- 
+//-
 block scripts
   //- example
   //- script(src='js/script.js')
 
-//- ------------------------------------
-//- extend
-//- 
-extends /_layouts/_default
 
 //- ------------------------------------
 //- content this page
-//- 
+//-
 block content
   h1 INDEX
-  #{__dirname}
