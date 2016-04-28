@@ -1,3 +1,4 @@
+include /_config.pug
 //- ------------------------------------
 //- include local variables
 //-
@@ -14,7 +15,8 @@ html(lang="ja")
   //- ------------------------------------
   //- begin body
   //-
-  body#side-id
+  body
+    div= DOMAIN
     .main
       //- include global header
       include /_partial/_header.pug

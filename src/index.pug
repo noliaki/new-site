@@ -1,15 +1,15 @@
 //- ------------------------------------
 //- extend
 //-
-extends /_layouts/_default
+extends /_layouts/_default.pug
 
 //- ------------------------------------
 //- variables this page
 //-
 block variables
-  - var TITLE       = 'AWESOME TITLE';
-  - var DESCRIPTION = 'AWESOME DESCRIPTION';
-  - var KEYWORD     = 'AWESOME KEYWORD';
+  - const TITLE       = 'AWESOME TITLE';
+  - const DESCRIPTION = 'AWESOME DESCRIPTION';
+  - const KEYWORD     = 'AWESOME KEYWORD';
 
 //- ------------------------------------
 //- style this page
@@ -30,5 +30,4 @@ block scripts
 //- content this page
 //-
 block content
-  h1 INDEX
-  #{__dirname}
+  h1 INDEX #{baseDir}
