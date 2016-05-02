@@ -16,12 +16,12 @@ head(prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# mixi: http://mixi-pl
   meta(property="og:title", content="")
   meta(property="og:type", content="")
   meta(property="og:site_name", content="")
-  meta(property="og:url", content="")
+  meta(property="og:url", content= '//' + DOMAIN + LOCAL_PATH)
   meta(property="og:image", content="")
   meta(property="og:description", content=DESCRIPTION)
   
   //-================ TITLE ================-//
-  title= TITLE
+  title= TITLE? TITLE + ' | ' + SITE_NAME : SITE_NAME
   link(rel="shortcut icon", href="")
   link(rel="index", href="/")
   //-================ STYLE ================-//
