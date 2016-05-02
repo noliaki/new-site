@@ -8,6 +8,7 @@ const rimraf       = require('rimraf');
 const uglify       = require('gulp-uglify');
 const runSequence  = require('run-sequence');
 const plumber      = require('gulp-plumber');
+const data         = require('gulp-data');
 const browserSync  = require('browser-sync').create();
 
 // pug
@@ -48,6 +49,7 @@ gulp.task('pug', () => {
       '!' + config.path.src + '/**/_*'
     ])
     .pipe(plumber())
+    .pipe(data(config.data))
     .pipe(pug(config.pug))
     .pipe(gulp.dest(config.path.dist))
     .pipe(browserSync.stream());
