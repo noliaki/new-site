@@ -36,9 +36,17 @@ module.exports = {
 
   // pug
   pug: {
-    pretty: false,
-    basedir: pathConfig.src,
-    locals: path
+    pretty: true,
+    basedir: pathConfig.src
+  },
+  data: function(file) {
+    const filePath = file.path.replace(pathConfig.src, '');
+    const pathInfo = path.parse(filePath);
+    pathInfo.ext = '.html';
+    pathInfo.base = '';
+    return {
+      path: path.format(pathInfo)
+    }
   },
 
   // styles

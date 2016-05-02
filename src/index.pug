@@ -1,7 +1,7 @@
 //- ------------------------------------
 //- extend
 //-
-extends /_layouts/_default.pug
+extends /_layouts/_default
 
 //- ------------------------------------
 //- variables this page
@@ -10,6 +10,7 @@ block variables
   - const TITLE       = 'AWESOME TITLE';
   - const DESCRIPTION = 'AWESOME DESCRIPTION';
   - const KEYWORD     = 'AWESOME KEYWORD';
+  - const LOCAL_PATH  = path;
 
 //- ------------------------------------
 //- style this page
@@ -31,3 +32,4 @@ block scripts
 //-
 block content
   h1 INDEX
+  p= path
