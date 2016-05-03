@@ -148,10 +148,11 @@ gulp.task('copy', () => {
 // =============================================
 // sitemap
 //
-gulp.task('sitemap', function () {
+gulp.task('sitemap', () => {
   return gulp.src(config.path.dist + '/**/*.html')
     .pipe(sitemap({
-      siteUrl: 'http://www.example.com'
+      siteUrl: 'http://www.example.com',
+      spacing: '  '
     }))
     .pipe(gulp.dest(config.path.dist));
 });
