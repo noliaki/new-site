@@ -9,6 +9,7 @@ const uglify       = require('gulp-uglify');
 const runSequence  = require('run-sequence');
 const plumber      = require('gulp-plumber');
 const data         = require('gulp-data');
+const sitemap      = require('gulp-sitemap');
 const browserSync  = require('browser-sync').create();
 
 // pug
@@ -145,6 +146,17 @@ gulp.task('copy', () => {
 });
 
 // =============================================
+// sitemap
+//
+gulp.task('sitemap', function () {
+  return gulp.src(config.path.dist + '/**/*.html')
+    .pipe(sitemap({
+      siteUrl: 'http://www.example.com'
+    }))
+    .pipe(gulp.dest(config.path.dist));
+});
+
+// =============================================
 // clean dir
 //
 gulp.task('clean', (callBack) => {
@@ -177,6 +189,7 @@ gulp.task('build', (callBack) => {
     'clean'     ,
     'prefix-css',
     ['copy', 'pug', 'sass', 'imagemin', 'babel'],
+    'sitemap',
     callBack
   );
 });
