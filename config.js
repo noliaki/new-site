@@ -1,9 +1,12 @@
 // =============================================
-// modules
+// require module
 //
-
-// common
 const path = require('path');
+
+// =============================================
+// require site information
+//
+const site_info = require('./site-info.js');
 
 // =============================================
 // path
@@ -29,23 +32,29 @@ module.exports = {
     server: {
       baseDir: pathConfig.dist
     },
-    port: 3000,
-    ghostMode: false,
-    notify: false
+    port      : 3000,
+    ghostMode : false,
+    notify    : false
   },
 
   // pug
   pug: {
-    pretty: true,
-    basedir: pathConfig.src
+    pretty  : true,
+    basedir : pathConfig.src
   },
+
+  // data
   data: function(file) {
     const filePath = file.path.replace(pathConfig.src, '');
     const pathInfo = path.parse(filePath);
     pathInfo.ext = '.html';
     pathInfo.base = '';
     return {
-      path: path.format(pathInfo)
+      site_info,
+      page_info: {
+        local_path: path.format(pathInfo),
+        absolute_path: '//' + site_info.domain + path.format(pathInfo)
+      }
     }
   },
 
