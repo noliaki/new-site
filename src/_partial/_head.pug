@@ -5,6 +5,7 @@ head(prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# mixi: http://mixi-pl
   meta(name="keywords", content=KEYWORD)
   meta(name="author", content=AUTHOR)
   meta(name="copyright", content=COPY_RIGHT)
+  
   //-================ SNS ================-//
   //- mixi
   meta(property="mixi:title", content="MIXI TITLE")
@@ -12,18 +13,23 @@ head(prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# mixi: http://mixi-pl
   meta(property="mixi:content-rating", content="1")
   
   //- facebook
-  meta(property="fb:app_id", content=FB_APP_ID)
+  meta(property="fb:app_id", content=site_info.fb_id)
   meta(property="og:title", content="")
   meta(property="og:type", content="")
   meta(property="og:site_name", content="")
-  meta(property="og:url", content= '//' + DOMAIN + LOCAL_PATH)
+  meta(property="og:url", content=page_info.absolute_path)
   meta(property="og:image", content="")
   meta(property="og:description", content=DESCRIPTION)
   
   //-================ TITLE ================-//
-  title= TITLE? TITLE + ' | ' + SITE_NAME : SITE_NAME
-  link(rel="shortcut icon", href="")
+  title= TITLE? TITLE + ' | ' + site_info.name : site_info.name
+  
+  //-================ FAVICON ================-//
+  link(rel="shortcut icon", href="", type="image/vnd.microsoft.icon")
+  
+  //-================ REL ================-//
   link(rel="index", href="/")
+  
   //-================ STYLE ================-//
   link(rel="stylesheet", href="/css/style.css")
   block style

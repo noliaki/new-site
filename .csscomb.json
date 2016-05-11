@@ -311,6 +311,7 @@
     "filter:progid:DXImageTransform.Microsoft.gradient",
     "-ms-filter:\\'progid:DXImageTransform.Microsoft.gradient",
     "text-shadow",
+    "text-size-adjust",
     "font",
     "font-family",
     "font-size",
@@ -324,6 +325,8 @@
     "font-emphasize-position",
     "font-emphasize-style",
     "font-smooth",
+    "-webkit-font-smoothing",
+    "-moz-osx-font-smoothing",
     "line-height"
   ]
 }

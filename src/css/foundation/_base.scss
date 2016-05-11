@@ -6,10 +6,12 @@ html {
 body {
   min-width: $width-inner;
   color: $color-font;
-  font-family: $font-family-base;
-  line-height: $line-height-base;
-
   text-size-adjust: 100%;
+  font-family: $font-family-base;
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: $line-height-base;
 }
 
 
