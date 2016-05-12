@@ -17,8 +17,8 @@ html(lang="ja")
   //- ------------------------------------
   //- begin body
   //-
-  body
-    div= DOMAIN
+  body(id=SITE_INFO.domain.replace('.', '-'))
+    div= SITE_INFO.domain
     .main
       //- include global header
       include /_partial/_header
@@ -27,3 +27,6 @@ html(lang="ja")
         block content
       //- include global footer
       include /_partial/_footer
+      
+    //-================ SCRIPT ================-//
+    block scripts
