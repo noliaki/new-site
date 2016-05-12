@@ -6,7 +6,7 @@ const path = require('path');
 // =============================================
 // require site information
 //
-const site_info = require('./site-info.js');
+const SITE_INFO = require('./site_info.js');
 
 // =============================================
 // path
@@ -50,17 +50,17 @@ module.exports = {
     pathInfo.ext = '.html';
     pathInfo.base = '';
     return {
-      site_info,
-      page_info: {
+      SITE_INFO,
+      PAGE_INFO: {
         local_path: path.format(pathInfo),
-        absolute_path: '//' + site_info.domain + path.format(pathInfo)
+        absolute_path: '//' + SITE_INFO.domain + path.format(pathInfo)
       }
     }
   },
 
   // styles
   sass: {
-    outputStyle: 'compressed'
+    outputStyle: 'expanded'
   },
   autoprefixer: {
     browsers: [

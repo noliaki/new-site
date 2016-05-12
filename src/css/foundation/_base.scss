@@ -45,13 +45,13 @@ a {
 
   &:hover {
     color: $color-link-hover;
+
+    & img {
+      opacity: $opacity-hover-img;
+    }
   }
 
   &:active {
     color: $color-link-active;
-  }
-
-  &:hover > img {
-    opacity: $opacity-hover-img;
   }
 }
