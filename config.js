@@ -20,7 +20,8 @@ const pathConfig = {
 // config
 //
 module.exports = {
-
+  SITE_INFO,
+  
   // path
   path: {
     src  : pathConfig.src,

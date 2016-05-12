@@ -4,7 +4,7 @@ html {
 }
 
 body {
-  min-width: $width-inner;
+  min-width: $size-inner;
   color: $color-font;
   text-size-adjust: 100%;
   font-family: $font-family-base;
@@ -14,24 +14,17 @@ body {
   line-height: $line-height-base;
 }
 
-
-
-// ----------------------------------------------------
-// cleadfix
-//
-
-
-// ----------------------------------------------------
-// select color
-//
+// =============================================
+//  selection color
+// =============================================
 ::selection {
   color: $color-selection-font;
   background: $color-selection-bg;
 }
 
-// ----------------------------------------------------
-// select color
-//
+// =============================================
+//  anchor color
+// =============================================
 a {
   color: $color-link;
 
@@ -47,11 +40,19 @@ a {
     color: $color-link-hover;
 
     & img {
-      opacity: $opacity-hover-img;
+      @include opacity($opacity-hover-img);
     }
   }
 
   &:active {
     color: $color-link-active;
   }
+}
+
+// =============================================
+//  img style
+// =============================================
+img {
+  max-width: 100%;
+  vertical-align: bottom;
 }

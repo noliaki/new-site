@@ -1,6 +1,3 @@
-/*---------------------------------------
-  リセットCSS(編集不要)
-----------------------------------------*/
 @-ms-viewport {
   width: device-width;
 }
@@ -160,11 +157,6 @@ a {
   &:focus {
     outline: none;
   }
-}
-
-img {
-  max-width: 100%;
-  vertical-align: bottom;
 }
 
 button::-moz-focus-inner,

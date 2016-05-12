@@ -29,139 +29,152 @@ const babel        = require('gulp-babel');
 
 
 // =============================================
-// config
+// CONFIG
 //
-const config = require('./config.js');
+const CONFIG = require('./config.js');
 
 
 // =============================================
 // browser-sync
 //
 gulp.task('browser-sync', () => {
-  browserSync.init(config.browserSync);
+  browserSync.init(CONFIG.browserSync);
 });
 
 // =============================================
 // pug
 //
 gulp.task('pug', () => {
-  return gulp.src([
-      config.path.src + '/**/*.pug',
-      '!' + config.path.src + '/**/_*'
+  return (
+    gulp.src([
+      CONFIG.path.src + '/**/*.pug',
+      '!' + CONFIG.path.src + '/**/_*'
     ])
     .pipe(plumber())
-    .pipe(data(config.data))
-    .pipe(pug(config.pug))
-    .pipe(gulp.dest(config.path.dist))
-    .pipe(browserSync.stream());
- });
+    .pipe(data(CONFIG.data))
+    .pipe(pug(CONFIG.pug))
+    .pipe(gulp.dest(CONFIG.path.dist))
+    .pipe(browserSync.stream())
+  );
+});
 
  // =============================================
  // csscomb
  //
- gulp.task('csscomb', () => {
-   return gulp.src([
-       config.path.src + '/**/*.css' ,
-       config.path.src + '/**/*.scss',
-       '!' + config.path.src + '/**/_variables.scss'
-     ])
-     .pipe(plumber())
-     .pipe(csscomb())
-     .pipe(gulp.dest(config.path.src));
-  });
+gulp.task('csscomb', () => {
+  return (
+    gulp.src([
+      CONFIG.path.src + '/**/*.css' ,
+      CONFIG.path.src + '/**/*.scss',
+      '!' + CONFIG.path.src + '/**/_variables.scss'
+    ])
+    .pipe(plumber())
+    .pipe(csscomb())
+    .pipe(gulp.dest(CONFIG.path.src))
+  );
+});
 
 // =============================================
 // sass
 //
 gulp.task('sass', ['csscomb'], () => {
-  return gulp.src([
-      config.path.src + '/**/*.scss'
+  return (
+    gulp.src([
+      CONFIG.path.src + '/**/*.scss'
     ])
     .pipe(plumber())
-    .pipe(sass(config.sass))
-    .on('error', (error) => {
-      console.error('Error!', error.message)
-    })
-    .pipe(autoprefixer(config.autoprefixer))
-    .pipe(gulp.dest(config.path.dist))
-    .pipe(browserSync.stream());
- });
+    .pipe(sass(CONFIG.sass).on('error', sass.logError))
+    .pipe(autoprefixer(CONFIG.autoprefixer))
+    .pipe(gulp.dest(CONFIG.path.dist))
+    .pipe(browserSync.stream())
+  );
+});
 
 // =============================================
 // prefix-css
 //
 gulp.task('prefix-css', () => {
-  return gulp.src([
-      config.path.src + '/**/*.css'
+  return (
+    gulp.src([
+      CONFIG.path.src + '/**/*.css'
     ])
     .pipe(plumber())
-    .pipe(autoprefixer(config.autoprefixer))
-    .pipe(gulp.dest(config.path.dist))
-    .pipe(browserSync.stream());
- });
+    .pipe(autoprefixer(CONFIG.autoprefixer))
+    .pipe(gulp.dest(CONFIG.path.dist))
+    .pipe(browserSync.stream())
+  );
+});
 
 // =============================================
 // image min
 //
 gulp.task('imagemin', () => {
-  return gulp.src([
-      config.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'
+  return (
+    gulp.src([
+      CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'
     ])
     .pipe(plumber())
-    .pipe(imagemin())
-    .pipe(gulp.dest(config.path.dist));
+    .pipe(imagemin(CONFIG.imagemin))
+    .pipe(gulp.dest(CONFIG.path.dist))
+  );
 });
 
 // =============================================
 // babel
 //
 gulp.task('babel', () => {
-  return gulp.src([
-      config.path.src + '/**/*.js'
+  return (
+    gulp.src([
+      CONFIG.path.src + '/**/*.js'
     ])
     .pipe(plumber())
-    .pipe(babel(config.babel))
+    .pipe(babel(CONFIG.babel))
     .on('error', (error) => {
       console.error('Error!', error.message);
     })
-    .pipe(gulp.dest(config.path.dist))
-    .pipe(browserSync.stream());
+    .pipe(gulp.dest(CONFIG.path.dist))
+    .pipe(browserSync.stream())
+  );
 });
 
 // =============================================
 // copy
 //
 gulp.task('copy', () => {
-  return gulp.src([
-      config.path.src + '/**/*'                              ,
-      '!' + config.path.src + '/**/*.pug'                    ,
-      '!' + config.path.src + '/**/*.js'                     ,
-      '!' + config.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
-      '!' + config.path.src + '/**/*.scss'                   ,
-      '!' + config.path.src + '/**/*.css'                    ,
-      '!' + config.path.src + '/_*/'                         ,
-      '!' + config.path.src + '/**/_*'
+  return (
+    gulp.src([
+      CONFIG.path.src + '/**/*'                              ,
+      '!' + CONFIG.path.src + '/**/*.pug'                    ,
+      '!' + CONFIG.path.src + '/**/*.js'                     ,
+      '!' + CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
+      '!' + CONFIG.path.src + '/**/*.scss'                   ,
+      '!' + CONFIG.path.src + '/**/*.css'                    ,
+      '!' + CONFIG.path.src + '/_*/'                         ,
+      '!' + CONFIG.path.src + '/**/_*'
     ])
-    .pipe(gulp.dest(config.path.dist));
+    .pipe(gulp.dest(CONFIG.path.dist))
+  );
 });
 
 // =============================================
 // sitemap
 //
 gulp.task('sitemap', () => {
-  return gulp.src(config.path.dist + '/**/*.html')
+  return (
+    gulp.src(CONFIG.path.dist + '/**/*.html')
     .pipe(sitemap({
-      siteUrl: 'http://www.example.com',
+      siteUrl: '//' + CONFIG.SITE_INFO.domain,
       spacing: '  '
     }))
-    .pipe(gulp.dest(config.path.dist));
+    .pipe(gulp.dest(CONFIG.path.dist))
+  );
 });
 
 // =============================================
 // clean dir
 //
 gulp.task('clean', (callBack) => {
-  rimraf(config.path.dist, callBack);
+  rimraf(CONFIG.path.dist, callBack);
 });
 
 // =============================================
@@ -175,11 +188,11 @@ gulp.task('default', () => {
     'browser-sync'
   );
 
-  gulp.watch([config.path.src + '/**/*.pug'] , ['pug']);
-  gulp.watch([config.path.src + '/**/*.js']  , ['babel']);
-  gulp.watch([config.path.src + '/**/*.scss'], ['sass']);
-  gulp.watch([config.path.src + '/**/*.css'] , ['prefix-css']);
-  gulp.watch([config.path.src + '/**/*.html'], ['copy']);
+  gulp.watch([CONFIG.path.src + '/**/*.pug'] , ['pug']);
+  gulp.watch([CONFIG.path.src + '/**/*.js']  , ['babel']);
+  gulp.watch([CONFIG.path.src + '/**/*.scss'], ['sass']);
+  gulp.watch([CONFIG.path.src + '/**/*.css'] , ['prefix-css']);
+  gulp.watch([CONFIG.path.src + '/**/*.html'], ['copy']);
 });
 
 // =============================================
