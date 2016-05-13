@@ -1,5 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
   overflow-y: scroll;
+  text-size-adjust: 100%;
   font-size: $size-font-base;
 }
 

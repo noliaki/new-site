@@ -17,6 +17,7 @@ $color-link         : #0af;
 $color-link-visited : scale_color( $color-link, $lightness: 30% );
 $color-link-hover   : scale_color( $color-link, $lightness: 50% );
 $color-link-active  : scale_color( $color-link, $lightness: 20% );
+$color-border       : #444444;
 
 // --------------------------------------
 //  body background

@@ -21,7 +21,7 @@ const pathConfig = {
 //
 module.exports = {
   SITE_INFO,
-  
+
   // path
   path: {
     src  : pathConfig.src,
@@ -67,8 +67,7 @@ module.exports = {
     browsers: [
       '> 1% in JP'     ,
       'last 2 versions',
-      'ie >= 7'        ,
-      'last 2 Firefox versions'
+      'ie >= 8'
     ]
   },
 
