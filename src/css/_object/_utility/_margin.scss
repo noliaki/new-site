@@ -1,0 +1,18 @@
+$step: 5;
+$loop: 10;
+
+@for $i from 0 through $loop {
+  $val: $i * $step;
+  .u-mt_#{$val} {
+    margin-top: #{$val}px;
+  }
+  .u-mr_#{$val} {
+    margin-right: #{$val}px;
+  }
+  .u-mb_#{$val} {
+    margin-bottom: #{$val}px;
+  }
+  .u-ml_#{$val} {
+    margin-left: #{$val}px;
+  }
+}

@@ -1,0 +1,5 @@
+@mixin media-query($device: $size-break-point) {
+  @media screen and (max-width: $device) {
+    @content;
+  }
+}

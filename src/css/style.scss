@@ -1,22 +1,35 @@
 @charset 'utf-8';
 
+// ==========================================================================
+// variables
+// ==========================================================================
+
 @import '_variables';
+
+// ==========================================================================
+// mixins
+// ==========================================================================
+
+@import '_mixins/_clearfix';
+@import '_mixins/_media-query';
+@import '_mixins/_opacity';
 
 // ==========================================================================
 // Foundation
 // ==========================================================================
 
-@import 'foundation/_reset';
-@import 'foundation/_base';
+@import '_foundation/_reset';
+@import '_foundation/_base';
 
 // ==========================================================================
 // Layout
 // ==========================================================================
 
-@import 'layout/_footer';
-@import 'layout/_header';
-@import 'layout/_main';
-@import 'layout/_sidebar';
+@import '_layout/_footer';
+@import '_layout/_header';
+@import '_layout/_main';
+@import '_layout/_print';
+@import '_layout/_sidebar';
 
 // ==========================================================================
 // Object
@@ -26,27 +39,28 @@
 // Component
 // -----------------------------------------------------------------
 
-@import 'object/component/_button';
-@import 'object/component/_dialog';
-@import 'object/component/_grid';
-@import 'object/component/_media';
+@import '_object/_component/_button';
+@import '_object/_component/_dialog';
+@import '_object/_component/_grid';
+@import '_object/_component/_media';
 
 // -----------------------------------------------------------------
 // Project
 // -----------------------------------------------------------------
 
-// @import 'object/project/_articles';
-// @import 'object/project/_comments';
-// @import 'object/project/_gallery';
-// @import 'object/project/_profile';
+// @import '_object/project/_articles';
+// @import '_object/project/_comments';
+// @import '_object/project/_gallery';
+// @import '_object/project/_profile';
 
 // -----------------------------------------------------------------
 // Utility
 // -----------------------------------------------------------------
 
-// @import 'object/utility/_align';
-// @import 'object/utility/_clearfix';
-// @import 'object/utility/_margin';
-// @import 'object/utility/_position';
-// @import 'object/utility/_size';
-// @import 'object/utility/_text';
+// @import '_object/_utility/_align';
+@import '_object/_utility/_clearfix';
+@import '_object/_utility/_font-weight';
+// @import '_object/_utility/_position';
+@import '_object/_utility/_margin';
+@import '_object/_utility/_padding';
+@import '_object/_utility/_text-align';
