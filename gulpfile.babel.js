@@ -27,6 +27,9 @@ const pngquant     = require('imagemin-pngquant');
 // js
 const babel        = require('gulp-babel');
 
+// html hint
+const htmlhint     = require('gulp-htmlhint');
+
 
 // =============================================
 // CONFIG
@@ -50,7 +53,7 @@ gulp.task('pug', () => {
       CONFIG.path.src + '/**/*.pug',
       '!' + CONFIG.path.src + '/**/_*'
     ])
-    .pipe(plumber())
+    .pipe(plumber(CONFIG.plumber))
     .pipe(data(CONFIG.data))
     .pipe(pug(CONFIG.pug))
     .pipe(gulp.dest(CONFIG.path.dist))
@@ -68,7 +71,7 @@ gulp.task('csscomb', () => {
       CONFIG.path.src + '/**/*.scss',
       '!' + CONFIG.path.src + '/**/_variables.scss'
     ])
-    .pipe(plumber())
+    .pipe(plumber(CONFIG.plumber))
     .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.src))
   );
@@ -82,7 +85,7 @@ gulp.task('sass', ['csscomb'], () => {
     gulp.src([
       CONFIG.path.src + '/**/*.scss'
     ])
-    .pipe(plumber())
+    .pipe(plumber(CONFIG.plumber))
     .pipe(sass(CONFIG.sass).on('error', sass.logError))
     .pipe(autoprefixer(CONFIG.autoprefixer))
     .pipe(gulp.dest(CONFIG.path.dist))
@@ -98,7 +101,7 @@ gulp.task('prefix-css', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.css'
     ])
-    .pipe(plumber())
+    .pipe(plumber(CONFIG.plumber))
     .pipe(autoprefixer(CONFIG.autoprefixer))
     .pipe(gulp.dest(CONFIG.path.dist))
     .pipe(browserSync.stream())
@@ -113,7 +116,7 @@ gulp.task('imagemin', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'
     ])
-    .pipe(plumber())
+    .pipe(plumber(CONFIG.plumber))
     .pipe(imagemin(CONFIG.imagemin))
     .pipe(gulp.dest(CONFIG.path.dist))
   );
@@ -127,7 +130,7 @@ gulp.task('babel', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.js'
     ])
-    .pipe(plumber())
+    .pipe(plumber(CONFIG.plumber))
     .pipe(babel(CONFIG.babel))
     .on('error', (error) => {
       console.error('Error!', error.message);
@@ -144,6 +147,7 @@ gulp.task('copy', () => {
   return (
     gulp.src([
       CONFIG.path.src + '/**/*'                              ,
+      '!' + CONFIG.path.src + '/**/*.html'                   ,
       '!' + CONFIG.path.src + '/**/*.pug'                    ,
       '!' + CONFIG.path.src + '/**/*.js'                     ,
       '!' + CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
@@ -151,6 +155,18 @@ gulp.task('copy', () => {
       '!' + CONFIG.path.src + '/**/*.css'                    ,
       '!' + CONFIG.path.src + '/_*/'                         ,
       '!' + CONFIG.path.src + '/**/_*'
+    ])
+    .pipe(gulp.dest(CONFIG.path.dist))
+  );
+});
+
+// =============================================
+// export-html
+//
+gulp.task('export-html', () => {
+  return (
+    gulp.src([
+      CONFIG.path.src + '/**/*.html'
     ])
     .pipe(gulp.dest(CONFIG.path.dist))
   );
@@ -178,6 +194,18 @@ gulp.task('clean', (callBack) => {
 });
 
 // =============================================
+// html hint
+//
+gulp.task('html-hint', () => {
+  return (
+    gulp.src(CONFIG.path.dist + '/**/*.html')
+    .pipe(plumber(CONFIG.plumber))
+    .pipe(htmlhint(CONFIG.htmlhint))
+    .pipe(htmlhint.failReporter())
+  );
+});
+
+// =============================================
 // gulp default task
 //
 gulp.task('default', () => {
@@ -185,14 +213,25 @@ gulp.task('default', () => {
     'clean'     ,
     'prefix-css',
     ['copy', 'pug', 'sass', 'imagemin', 'babel'],
-    'browser-sync'
+    'browser-sync',
+    'html-hint'
   );
 
-  gulp.watch([CONFIG.path.src + '/**/*.pug'] , ['pug']);
+  gulp.watch([CONFIG.path.src + '/**/*.pug'], () => {
+    runSequence(
+      'pug',
+      'html-hint'
+    );
+  });
+  gulp.watch([CONFIG.path.src + '/**/*.html'], () => {
+    runSequence(
+      'export-html',
+      'html-hint'
+    );
+  });
   gulp.watch([CONFIG.path.src + '/**/*.js']  , ['babel']);
   gulp.watch([CONFIG.path.src + '/**/*.scss'], ['sass']);
   gulp.watch([CONFIG.path.src + '/**/*.css'] , ['prefix-css']);
-  gulp.watch([CONFIG.path.src + '/**/*.html'], ['copy']);
 });
 
 // =============================================
@@ -203,6 +242,7 @@ gulp.task('build', (callBack) => {
     'clean'     ,
     'prefix-css',
     ['copy', 'pug', 'sass', 'imagemin', 'babel'],
+    'html-hint',
     'sitemap',
     callBack
   );

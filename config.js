@@ -81,5 +81,17 @@ module.exports = {
 
   // images
   imagemin: {
+  },
+
+  // plumber
+  plumber: {
+    errorHandler: function(err) {
+      console.log(err.messageFormatted);
+    }
+  },
+
+  // htmlhint
+  htmlhint: {
+    "alt-require": true
   }
 };
