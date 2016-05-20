@@ -18,7 +18,7 @@ const pug          = require('gulp-pug');
 // css (sass)
 const sass         = require('gulp-sass');
 const csscomb      = require('gulp-csscomb');
-const autoprefixer = require('gulp-autoprefixer');
+const pleeease     = require('gulp-pleeease');
 
 // image
 const imagemin     = require('gulp-imagemin');
@@ -80,29 +80,29 @@ gulp.task('csscomb', () => {
 // =============================================
 // sass
 //
-gulp.task('sass', ['csscomb'], () => {
+gulp.task('sass', () => {
   return (
     gulp.src([
       CONFIG.path.src + '/**/*.scss'
     ])
     .pipe(plumber(CONFIG.plumber))
     .pipe(sass(CONFIG.sass).on('error', sass.logError))
-    .pipe(autoprefixer(CONFIG.autoprefixer))
+    .pipe(pleeease(CONFIG.pleeease))
     .pipe(gulp.dest(CONFIG.path.dist))
     .pipe(browserSync.stream())
   );
 });
 
 // =============================================
-// prefix-css
+// pleeease
 //
-gulp.task('prefix-css', () => {
+gulp.task('pleeease', () => {
   return (
     gulp.src([
       CONFIG.path.src + '/**/*.css'
     ])
     .pipe(plumber(CONFIG.plumber))
-    .pipe(autoprefixer(CONFIG.autoprefixer))
+    .pipe(pleeease(CONFIG.pleeease))
     .pipe(gulp.dest(CONFIG.path.dist))
     .pipe(browserSync.stream())
   );
@@ -211,7 +211,7 @@ gulp.task('html-hint', () => {
 gulp.task('default', () => {
   runSequence(
     'clean'     ,
-    'prefix-css',
+    'pleeease',
     ['copy', 'pug', 'sass', 'imagemin', 'babel'],
     'browser-sync',
     'html-hint'
@@ -231,7 +231,7 @@ gulp.task('default', () => {
   });
   gulp.watch([CONFIG.path.src + '/**/*.js']  , ['babel']);
   gulp.watch([CONFIG.path.src + '/**/*.scss'], ['sass']);
-  gulp.watch([CONFIG.path.src + '/**/*.css'] , ['prefix-css']);
+  gulp.watch([CONFIG.path.src + '/**/*.css'] , ['pleeease']);
 });
 
 // =============================================
@@ -239,11 +239,12 @@ gulp.task('default', () => {
 //
 gulp.task('build', (callBack) => {
   runSequence(
-    'clean'     ,
-    'prefix-css',
+    'clean'    ,
+    'pleeease' ,
+    'csscomb'  ,
     ['copy', 'pug', 'sass', 'imagemin', 'babel'],
     'html-hint',
-    'sitemap',
+    'sitemap'  ,
     callBack
   );
 });

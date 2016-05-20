@@ -59,11 +59,15 @@ module.exports = {
     }
   },
 
-  // styles
+  // sass
   sass: {
-    outputStyle: 'expanded'
+    outputStyle: 'nested'
   },
-  autoprefixer: {
+
+  // pleeease
+  pleeease: {
+    minifier: false,
+    mqpacker: true,
     browsers: [
       '> 1% in JP'     ,
       'last 2 versions',

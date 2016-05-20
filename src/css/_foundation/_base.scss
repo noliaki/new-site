@@ -49,7 +49,7 @@ a {
     color: $color-link-hover;
 
     & img {
-      @include opacity($opacity-hover-img);
+      opacity: $opacity-hover-img;
     }
   }
 

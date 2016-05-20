@@ -19,19 +19,18 @@
   "devDependencies": {
     "browser-sync": "^2.12.5",
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
     "gulp-babel": "^6.1.2",
     "gulp-csscomb": "^3.0.7",
     "gulp-data": "^1.2.1",
     "gulp-htmlhint": "^0.3.1",
-    "gulp-imagemin": "^2.4.0",
+    "gulp-imagemin": "^3.0.1",
+    "gulp-pleeease": "^2.0.2",
     "gulp-plumber": "^1.1.0",
-    "gulp-pug": "^1.2.0",
+    "gulp-pug": "^3.0.2",
     "gulp-sass": "^2.3.1",
     "gulp-sitemap": "^4.0.0",
     "gulp-uglify": "^1.5.3",
-    "imagemin-pngquant": "^4.2.2",
-    "pug": "^2.0.0-alpha6",
+    "imagemin-pngquant": "^5.0.0",
     "rimraf": "^2.5.2",
     "run-sequence": "^1.1.5"
   }
