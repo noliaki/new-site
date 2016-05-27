@@ -145,7 +145,6 @@ gulp.task('copy', () => {
   return (
     gulp.src([
       CONFIG.path.src + '/**/*'                              ,
-      '!' + CONFIG.path.src + '/**/*.html'                   ,
       '!' + CONFIG.path.src + '/**/*.pug'                    ,
       '!' + CONFIG.path.src + '/**/*.js'                     ,
       '!' + CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
