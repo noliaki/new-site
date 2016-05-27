@@ -1,101 +1,17 @@
 // =============================================
-// require module
-//
-const path = require('path');
-
-// =============================================
-// require site information
-//
-const SITE_INFO = require('./site_info.js');
-
-// =============================================
-// path
-//
-const pathConfig = {
-  src  : path.resolve('src'),
-  dist : path.resolve('dist')
-};
-
-// =============================================
-// config
+// options
 //
 module.exports = {
-  SITE_INFO,
-
-  // path
-  path: {
-    src  : pathConfig.src,
-    dist : pathConfig.dist
-  },
-
-  // serve
-  browserSync: {
-    server: {
-      baseDir: pathConfig.dist
-    },
-    port      : 3000,
-    ghostMode : false,
-    notify    : false
-  },
-
-  // pug
-  pug: {
-    pretty  : true,
-    basedir : pathConfig.src
-  },
-
-  // data
-  data: function(file) {
-    const filePath = file.path.replace(pathConfig.src, '');
-    const pathInfo = path.parse(filePath);
-    pathInfo.ext = '.html';
-    pathInfo.base = '';
-    return {
-      SITE_INFO,
-      PAGE_INFO: {
-        local_path: path.format(pathInfo),
-        absolute_path: '//' + SITE_INFO.domain + path.format(pathInfo)
-      }
-    }
-  },
-
-  // sass
-  sass: {
-    outputStyle: 'nested'
-  },
-
-  // pleeease
-  pleeease: {
-    minifier: false,
-    mqpacker: true,
-    browsers: [
-      '> 1% in JP'     ,
-      'last 2 versions',
-      'ie >= 8'
-    ]
-  },
-
-  // scripts
-  uglify: {
-    preserveComments: 'some'
-  },
-  babel: {
-    presets: ['es2015']
-  },
-
-  // images
-  imagemin: {
-  },
-
-  // plumber
-  plumber: {
-    errorHandler: function(err) {
-      console.log(err.messageFormatted);
-    }
-  },
-
-  // htmlhint
-  htmlhint: {
-    "alt-require": true
-  }
+  SITE_INFO   : require('./options/site-info.js'),
+  path        : require('./options/path-env.js'),
+  browserSync : require('./options/browser-sync.js'),
+  pug         : require('./options/gulp-pug.js'),
+  data        : require('./options/gulp-data.js'),
+  sass        : require('./options/gulp-sass.js'),
+  pleeease    : require('./options/gulp-pleeease.js'),
+  uglify      : require('./options/gulp-uglify.js'),
+  babel       : require('./options/gulp-babel.js'),
+  imagemin    : require('./options/gulp-imagemin.js'),
+  plumber     : require('./options/gulp-plumber.js'),
+  htmlhint    : require('./options/gulp-htmlhint.js')
 };

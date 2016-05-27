@@ -1,7 +1,3 @@
-// =============================================
-// gulp | plug-in
-//
-
 // common
 const gulp         = require('gulp');
 const rimraf       = require('rimraf');
@@ -128,7 +124,9 @@ gulp.task('imagemin', () => {
 gulp.task('babel', () => {
   return (
     gulp.src([
-      CONFIG.path.src + '/**/*.js'
+      CONFIG.path.src + '/**/*.js',
+      '!' + CONFIG.path.src + '/**/_*',
+      '!' + CONFIG.path.src + '/_*/'
     ])
     .pipe(plumber(CONFIG.plumber))
     .pipe(babel(CONFIG.babel))
