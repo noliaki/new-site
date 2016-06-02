@@ -158,18 +158,6 @@ gulp.task('copy', () => {
 });
 
 // =============================================
-// export-html
-//
-gulp.task('export-html', () => {
-  return (
-    gulp.src([
-      CONFIG.path.src + '/**/*.html'
-    ])
-    .pipe(gulp.dest(CONFIG.path.dist))
-  );
-});
-
-// =============================================
 // sitemap
 //
 gulp.task('sitemap', () => {
@@ -210,8 +198,8 @@ gulp.task('default', () => {
     'clean'     ,
     'pleeease',
     ['copy', 'pug', 'sass', 'imagemin', 'babel'],
-    'browser-sync',
-    'html-hint'
+    'html-hint',
+    'browser-sync'
   );
 
   gulp.watch([CONFIG.path.src + '/**/*.pug'], () => {
