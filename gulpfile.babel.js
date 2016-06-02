@@ -1,4 +1,4 @@
-// common
+const fs           = require('fs');
 const gulp         = require('gulp');
 const rimraf       = require('rimraf');
 const uglify       = require('gulp-uglify');
@@ -203,22 +203,59 @@ gulp.task('default', () => {
     'browser-sync'
   );
 
-  gulp.watch([CONFIG.path.src + '/**/*.pug'], () => {
+  fs.watch(CONFIG.path.src, { recursive : true }, (event, filename) => {
+    if(event === 'rename'){
+      const distFile = filename.replace(/(\.pug)$/, '.html').replace(/(\.scss)$/, '.css');
+
+      rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
+        runGulpTask(event, filename);
+      });
+
+      return;
+    }
+    runGulpTask(event, filename);
+  });
+});
+
+function runGulpTask(event, filename) {
+  if( /(\.pug)$/.test(filename) ) {
     runSequence(
       'pug',
       'html-hint'
     );
-  });
-  gulp.watch([CONFIG.path.src + '/**/*.html'], () => {
+    return;
+  }
+
+  if( /(\.html)$/.test(filename) ) {
     runSequence(
       'export-html',
       'html-hint'
     );
-  });
-  gulp.watch([CONFIG.path.src + '/**/*.js']  , ['babel']);
-  gulp.watch([CONFIG.path.src + '/**/*.scss'], ['sass']);
-  gulp.watch([CONFIG.path.src + '/**/*.css'] , ['pleeease']);
-});
+    return;
+  }
+
+  if( /(\.js)$/.test(filename) ) {
+    runSequence('babel');
+    return;
+  }
+
+  if( /(\.scss)$/.test(filename) ) {
+    runSequence('sass');
+    return;
+  }
+
+  if( /(\.css)$/.test(filename) ) {
+    runSequence('pleeease');
+    return;
+  }
+
+  if( /(\.(jpg|jpeg|png|gif|svg))$/.test(filename) ) {
+    runSequence('imagemin');
+    return;
+  }
+
+  runSequence('copy');
+}
 
 // =============================================
 // gulp build
