@@ -145,7 +145,6 @@ gulp.task('copy', () => {
   return (
     gulp.src([
       CONFIG.path.src + '/**/*'                              ,
-      '!' + CONFIG.path.src + '/**/*.html'                   ,
       '!' + CONFIG.path.src + '/**/*.pug'                    ,
       '!' + CONFIG.path.src + '/**/*.js'                     ,
       '!' + CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
@@ -153,18 +152,6 @@ gulp.task('copy', () => {
       '!' + CONFIG.path.src + '/**/*.css'                    ,
       '!' + CONFIG.path.src + '/_*/'                         ,
       '!' + CONFIG.path.src + '/**/_*'
-    ])
-    .pipe(gulp.dest(CONFIG.path.dist))
-  );
-});
-
-// =============================================
-// export-html
-//
-gulp.task('export-html', () => {
-  return (
-    gulp.src([
-      CONFIG.path.src + '/**/*.html'
     ])
     .pipe(gulp.dest(CONFIG.path.dist))
   );
@@ -211,8 +198,8 @@ gulp.task('default', () => {
     'clean'     ,
     'pleeease',
     ['copy', 'pug', 'sass', 'imagemin', 'babel'],
-    'browser-sync',
-    'html-hint'
+    'html-hint',
+    'browser-sync'
   );
 
   gulp.watch([CONFIG.path.src + '/**/*.pug'], () => {
