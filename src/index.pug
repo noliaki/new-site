@@ -30,9 +30,7 @@ block scripts
 //- content this page
 //-
 block content
-  h1 page: INDEX
-  h2  test
-  h3  h3
-  p &amp;
-  p &lt;
-  p <span>escape!</span>
+  h1= SITE_INFO.name
+  h2= SITE_INFO.domain
+  h3= SITE_INFO.favicon_path
+  p!= SITE_INFO.copy_right
