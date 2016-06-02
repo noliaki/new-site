@@ -47,6 +47,7 @@ gulp.task('pug', () => {
   return (
     gulp.src([
       CONFIG.path.src + '/**/*.pug',
+      '!' + CONFIG.path.src + '/_*/',
       '!' + CONFIG.path.src + '/**/_*'
     ])
     .pipe(plumber(CONFIG.plumber))
@@ -125,8 +126,8 @@ gulp.task('babel', () => {
   return (
     gulp.src([
       CONFIG.path.src + '/**/*.js',
-      '!' + CONFIG.path.src + '/**/_*',
-      '!' + CONFIG.path.src + '/_*/'
+      '!' + CONFIG.path.src + '/_*/',
+      '!' + CONFIG.path.src + '/**/_*'
     ])
     .pipe(plumber(CONFIG.plumber))
     .pipe(babel(CONFIG.babel))
