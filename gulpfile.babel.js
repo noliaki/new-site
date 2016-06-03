@@ -32,6 +32,72 @@ const htmlhint     = require('gulp-htmlhint');
 //
 const CONFIG = require('./config.js');
 
+// =============================================
+// WATCH SOURCE FILES
+//
+const watchSourceFiles = () => {
+  console.log('-----------------------------');
+  console.log(`START WATCHING : ${CONFIG.path.src}`);
+  console.log('-----------------------------');
+
+  fs.watch(CONFIG.path.src, { recursive : true }, (event, filename) => {
+    console.log(`${event} | ${filename}`);
+
+    if(event === 'rename'){
+      const distFile = filename.replace(/(\.pug)$/, '.html').replace(/(\.scss)$/, '.css');
+
+      rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
+        runGulpTask(event, filename);
+      });
+
+      return;
+    }
+    runGulpTask(event, filename);
+  });
+};
+
+// =============================================
+// run gulp task when file changed
+//
+const runGulpTask = (event, filename) => {
+  if( /(\.pug)$/.test(filename) ) {
+    runSequence(
+      'pug',
+      'html-hint'
+    );
+    return;
+  }
+
+  if( /(\.html)$/.test(filename) ) {
+    runSequence(
+      'export-html',
+      'html-hint'
+    );
+    return;
+  }
+
+  if( /(\.js)$/.test(filename) ) {
+    runSequence('babel');
+    return;
+  }
+
+  if( /(\.scss)$/.test(filename) ) {
+    runSequence('sass');
+    return;
+  }
+
+  if( /(\.css)$/.test(filename) ) {
+    runSequence('pleeease');
+    return;
+  }
+
+  if( /(\.(jpg|jpeg|png|gif|svg))$/.test(filename) ) {
+    runSequence('imagemin');
+    return;
+  }
+
+  runSequence('copy');
+}
 
 // =============================================
 // browser-sync
@@ -85,6 +151,7 @@ gulp.task('sass', () => {
     .pipe(plumber(CONFIG.plumber))
     .pipe(sass(CONFIG.sass).on('error', sass.logError))
     .pipe(pleeease(CONFIG.pleeease))
+    .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.dist))
     .pipe(browserSync.stream())
   );
@@ -100,6 +167,7 @@ gulp.task('pleeease', () => {
     ])
     .pipe(plumber(CONFIG.plumber))
     .pipe(pleeease(CONFIG.pleeease))
+    .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.dist))
     .pipe(browserSync.stream())
   );
@@ -164,10 +232,7 @@ gulp.task('copy', () => {
 gulp.task('sitemap', () => {
   return (
     gulp.src(CONFIG.path.dist + '/**/*.html')
-    .pipe(sitemap({
-      siteUrl: '//' + CONFIG.SITE_INFO.domain,
-      spacing: '  '
-    }))
+    .pipe(sitemap(CONFIG.sitemap))
     .pipe(gulp.dest(CONFIG.path.dist))
   );
 });
@@ -196,66 +261,15 @@ gulp.task('html-hint', () => {
 //
 gulp.task('default', () => {
   runSequence(
-    'clean'     ,
+    'clean',
     'pleeease',
+    'csscomb',
     ['copy', 'pug', 'sass', 'imagemin', 'babel'],
+    'browser-sync',
     'html-hint',
-    'browser-sync'
+    watchSourceFiles
   );
-
-  fs.watch(CONFIG.path.src, { recursive : true }, (event, filename) => {
-    if(event === 'rename'){
-      const distFile = filename.replace(/(\.pug)$/, '.html').replace(/(\.scss)$/, '.css');
-
-      rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
-        runGulpTask(event, filename);
-      });
-
-      return;
-    }
-    runGulpTask(event, filename);
-  });
 });
-
-function runGulpTask(event, filename) {
-  if( /(\.pug)$/.test(filename) ) {
-    runSequence(
-      'pug',
-      'html-hint'
-    );
-    return;
-  }
-
-  if( /(\.html)$/.test(filename) ) {
-    runSequence(
-      'export-html',
-      'html-hint'
-    );
-    return;
-  }
-
-  if( /(\.js)$/.test(filename) ) {
-    runSequence('babel');
-    return;
-  }
-
-  if( /(\.scss)$/.test(filename) ) {
-    runSequence('sass');
-    return;
-  }
-
-  if( /(\.css)$/.test(filename) ) {
-    runSequence('pleeease');
-    return;
-  }
-
-  if( /(\.(jpg|jpeg|png|gif|svg))$/.test(filename) ) {
-    runSequence('imagemin');
-    return;
-  }
-
-  runSequence('copy');
-}
 
 // =============================================
 // gulp build
