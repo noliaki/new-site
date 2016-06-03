@@ -1,6 +1,6 @@
 const path      = require('path');
-const pathEnv   = require('./path-env.js');
-const SITE_INFO = require('./site-info.js');
+const pathEnv   = require('../configs/path-env.js');
+const SITE_INFO = require('../configs/site-info.js');
 
 module.exports = function(file) {
   const filePath = file.path.replace(pathEnv.src, '');

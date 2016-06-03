@@ -1,4 +1,4 @@
-const pathEnv = require('./path-env.js');
+const pathEnv = require('../configs/path-env.js');
 
 module.exports = {
   server : {
