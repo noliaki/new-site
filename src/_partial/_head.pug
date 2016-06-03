@@ -1,39 +1,23 @@
-head(prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# mixi: http://mixi-platform.com/ns#")
-  meta(charset="utf-8")
-  meta(http-equiv="X-UA-Compatible", content="IE=edge")
-  meta(name="author", content='//' + SITE_INFO.domain)
-  meta(name="description", content=DESCRIPTION)
-  meta(name="format-detection", content="telephone=no,address=no,email=no")
-  meta(name="viewport", content="width=device-width,initial-scale=1.0")
+head(prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# mixi: http://mixi-platform.com/ns#')
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='viewport', content='width=device-width,initial-scale=1.0')
+
+  meta(name='description', content=DESCRIPTION)
+  meta(name='format-detection', content='telephone=no,address=no,email=no')
 
   //-================ SNS ================-//
   //- facebook
-  meta(property="fb:app_id",      content = SITE_INFO.fb_app_id)
-  meta(property="og:title",       content = TITLE)
-  meta(property="og:type",        content = "")
-  meta(property="og:site_name",   content = "")
-  meta(property="og:url",         content = PAGE_INFO.absolute_path)
-  meta(property="og:image",       content = "")
-  meta(property="og:description", content = DESCRIPTION)
+  include ./_head_meta_facebook
 
   //- twitter
-  meta(name="twitter:card",           content="summary")
-  meta(name="twitter:site",           content="@twitter")
-  meta(property="twitter:account_id", content="00000000000")
-  meta(property="fb:admins",          content="00000000000")
-  meta(property="fb:app_id",          content="00000000000")
-
-  //-================ CANONICAL ================-//
-  link(rel="canonical", href = PAGE_INFO.absolute_path)
+  include ./_head_meta_twitter
 
   //-================ FAVICON ================-//
-  link(rel="icon", href = SITE_INFO.favicon_path)
-
-  //-================ ICON ================-//
-  link(rel="apple-touch-icon", href = SITE_INFO.favicon_path)
+  link(rel='icon', href = SITE_INFO.favicon_path)
 
   //-================ STYLE ================-//
-  link(rel="stylesheet", href="/css/style.css")
+  link(rel='stylesheet', href='/css/style.css')
   block style
 
   //-================ TITLE ================-//

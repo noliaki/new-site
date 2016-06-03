@@ -2,7 +2,7 @@ const path      = require('path');
 const pathEnv   = require('../configs/path-env.js');
 const SITE_INFO = require('../configs/site-info.js');
 
-module.exports = function(file) {
+module.exports = (file) => {
   const filePath = file.path.replace(pathEnv.src, '');
   const pathInfo = path.parse(filePath);
   pathInfo.ext = '.html';
