@@ -4,7 +4,7 @@
 module.exports = {
   SITE_INFO   : require('./configs/site-info.js'),
   path        : require('./configs/path-env.js'),
-  
+
   browserSync : require('./options/browser-sync.js'),
   pug         : require('./options/gulp-pug.js'),
   data        : require('./options/gulp-data.js'),
@@ -15,5 +15,6 @@ module.exports = {
   imagemin    : require('./options/gulp-imagemin.js'),
   plumber     : require('./options/gulp-plumber.js'),
   sitemap     : require('./options/gulp-sitemap.js'),
-  htmlhint    : require('./options/gulp-htmlhint.js')
+  htmlhint    : require('./options/gulp-htmlhint.js'),
+  eslint      : require('./options/gulp-eslint.js')
 };
