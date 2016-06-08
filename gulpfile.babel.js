@@ -22,6 +22,7 @@ const pngquant     = require('imagemin-pngquant');
 
 // js
 const babel        = require('gulp-babel');
+const eslint       = require('gulp-eslint');
 
 // html hint
 const htmlhint     = require('gulp-htmlhint');
@@ -198,6 +199,8 @@ gulp.task('babel', () => {
       '!' + CONFIG.path.src + '/**/_*'
     ])
     .pipe(plumber(CONFIG.plumber))
+    .pipe(eslint(CONFIG.eslint))
+    .pipe(eslint.format())
     .pipe(babel(CONFIG.babel))
     .on('error', (error) => {
       console.error('Error!', error.message);
