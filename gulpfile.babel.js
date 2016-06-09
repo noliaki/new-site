@@ -1,3 +1,5 @@
+'use strict';
+
 const fs           = require('fs');
 const gulp         = require('gulp');
 const rimraf       = require('rimraf');
@@ -27,11 +29,18 @@ const eslint       = require('gulp-eslint');
 // html hint
 const htmlhint     = require('gulp-htmlhint');
 
+// git
+const git          = require('gulp-git');
+
+// minimist
+const argv     = require('minimist')(process.argv.slice(2));
 
 // =============================================
 // CONFIG
 //
 const CONFIG = require('./config.js');
+
+let IS_PROD = false;
 
 // =============================================
 // WATCH SOURCE FILES
@@ -98,7 +107,26 @@ const runGulpTask = (event, filename) => {
   }
 
   runSequence('copy');
-}
+};
+
+gulp.task('checkout', () => {
+  let branch = argv.branch ? argv.branch : 'master';
+  let version = argv.version ? argv.version : 'master';
+  git.checkout(version? `refs/tags/${version}` : branch, (error) => {
+    if(error) {
+      console.log(`ERROR!!! : checkout | ${error}`);
+    }
+  });
+});
+
+gulp.task('pull', ['checkout'], () => {
+  console.log('------------------------------------------');
+  console.log(`  PULL ## ${branch} ## BRANCH !`);
+  console.log('------------------------------------------');
+  return git.pull('', '', (error) => {
+    console.log(`ERROR!!! : pull | ${error}`);
+  });
+});
 
 // =============================================
 // browser-sync
@@ -117,7 +145,7 @@ gulp.task('pug', () => {
       '!' + CONFIG.path.src + '/_*/',
       '!' + CONFIG.path.src + '/**/_*'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(data(CONFIG.data))
     .pipe(pug(CONFIG.pug))
     .pipe(gulp.dest(CONFIG.path.dist))
@@ -135,7 +163,7 @@ gulp.task('csscomb', () => {
       CONFIG.path.src + '/**/*.scss',
       '!' + CONFIG.path.src + '/**/_variables.scss'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.src))
   );
@@ -149,7 +177,7 @@ gulp.task('sass', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.scss'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(sass(CONFIG.sass).on('error', sass.logError))
     .pipe(pleeease(CONFIG.pleeease))
     .pipe(csscomb())
@@ -166,7 +194,7 @@ gulp.task('pleeease', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.css'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(pleeease(CONFIG.pleeease))
     .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.dist))
@@ -182,7 +210,7 @@ gulp.task('imagemin', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(imagemin(CONFIG.imagemin))
     .pipe(gulp.dest(CONFIG.path.dist))
   );
@@ -198,7 +226,7 @@ gulp.task('babel', () => {
       '!' + CONFIG.path.src + '/_*/',
       '!' + CONFIG.path.src + '/**/_*'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(eslint(CONFIG.eslint))
     .pipe(eslint.format())
     .pipe(babel(CONFIG.babel))
@@ -253,7 +281,7 @@ gulp.task('clean', (callBack) => {
 gulp.task('html-hint', () => {
   return (
     gulp.src(CONFIG.path.dist + '/**/*.html')
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(htmlhint(CONFIG.htmlhint))
     .pipe(htmlhint.failReporter())
   );
@@ -278,13 +306,29 @@ gulp.task('default', () => {
 // gulp build
 //
 gulp.task('build', (callBack) => {
+  // runSequence(
+  //   'clean'    ,
+  //   'pleeease' ,
+  //   'csscomb'  ,
+  //   ['copy', 'pug', 'sass', 'imagemin', 'babel'],
+  //   'html-hint',
+  //   'sitemap'  ,
+  //   callBack
+  // );
+  console.log( 'BUILD!!!!!!!' );
+});
+
+
+
+
+gulp.task('deploy:staging', () => {
   runSequence(
-    'clean'    ,
-    'pleeease' ,
-    'csscomb'  ,
-    ['copy', 'pug', 'sass', 'imagemin', 'babel'],
-    'html-hint',
-    'sitemap'  ,
-    callBack
+    'checkout-pull',
+    'build'
   );
+});
+
+
+gulp.task('deploy:production', (callBack) => {
+  IS_PROD = true;
 });
