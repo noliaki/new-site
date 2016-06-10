@@ -33,7 +33,10 @@ const htmlhint     = require('gulp-htmlhint');
 const git          = require('gulp-git');
 
 // minimist
-const argv     = require('minimist')(process.argv.slice(2));
+const argv         = require('minimist')(process.argv.slice(2));
+
+// gulpssh
+const gulpssh      = require('gulp-ssah');
 
 // =============================================
 // CONFIG
@@ -316,7 +319,12 @@ gulp.task('pull', () => {
   });
 });
 
-gulp.task('deploy', () => {
+gulp.task('dest-', () => {
+  let ssh = new gulpssh(IS_PROD? CONFIG.PRODUCTION : CONFIG.STAGING);
+  return (
+    gulp.src(CONFIG.path.dist)
+    .pipe(gulpSSH.dest('/home/iojs/test/gulp-ssh/'))
+  );
 
 });
 
@@ -325,7 +333,7 @@ gulp.task('deploy:staging', () => {
     'checkout',
     'pull',
     (callback) => {
-      console.log('RUN BUILD TASK');
+      let ssh = new gulpssh(CONFIG.STAGING);
     }
   );
 });
