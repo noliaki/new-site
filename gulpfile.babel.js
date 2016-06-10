@@ -319,22 +319,20 @@ gulp.task('pull', () => {
   });
 });
 
-gulp.task('dest-', () => {
-  let ssh = new gulpssh(IS_PROD? CONFIG.PRODUCTION : CONFIG.STAGING);
+gulp.task('dest-remote', () => {
+  let ssh = new gulpssh(IS_PROD? CONFIG.ssh.PRODUCTION : CONFIG.ssh.STAGING);
   return (
     gulp.src(CONFIG.path.dist)
-    .pipe(gulpSSH.dest('/home/iojs/test/gulp-ssh/'))
+    .pipe(ssh.dest(IS_PROD? CONFIG.ssh.PRODUCTION.dest : CONFIG.ssh.STAGING.dest))
   );
-
 });
 
 gulp.task('deploy:staging', () => {
   runSequence (
     'checkout',
     'pull',
-    (callback) => {
-      let ssh = new gulpssh(CONFIG.STAGING);
-    }
+    'build',
+    'dest-remote'
   );
 });
 
