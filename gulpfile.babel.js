@@ -109,25 +109,6 @@ const runGulpTask = (event, filename) => {
   runSequence('copy');
 };
 
-gulp.task('checkout', () => {
-  let branch = argv.branch ? argv.branch : 'master';
-  let version = argv.version ? argv.version : 'master';
-  git.checkout(version? `refs/tags/${version}` : branch, (error) => {
-    if(error) {
-      console.log(`ERROR!!! : checkout | ${error}`);
-    }
-  });
-});
-
-gulp.task('pull', ['checkout'], () => {
-  console.log('------------------------------------------');
-  console.log(`  PULL ## ${branch} ## BRANCH !`);
-  console.log('------------------------------------------');
-  return git.pull('', '', (error) => {
-    console.log(`ERROR!!! : pull | ${error}`);
-  });
-});
-
 // =============================================
 // browser-sync
 //
@@ -306,25 +287,46 @@ gulp.task('default', () => {
 // gulp build
 //
 gulp.task('build', (callBack) => {
-  // runSequence(
-  //   'clean'    ,
-  //   'pleeease' ,
-  //   'csscomb'  ,
-  //   ['copy', 'pug', 'sass', 'imagemin', 'babel'],
-  //   'html-hint',
-  //   'sitemap'  ,
-  //   callBack
-  // );
-  console.log( 'BUILD!!!!!!!' );
+  runSequence(
+    'clean'    ,
+    'pleeease' ,
+    'csscomb'  ,
+    ['copy', 'pug', 'sass', 'imagemin', 'babel'],
+    'html-hint',
+    'sitemap'  ,
+    callBack
+  );
 });
 
 
 
+gulp.task('checkout', () => {
+  let branch = argv.branch || 'master';
+  let version = argv.version || 'master';
+  git.checkout(argv.version? `refs/tags/${version}` : branch, (error) => {
+    if(error) throw error;
+  });
+});
+
+gulp.task('pull', () => {
+  git.pull('', '', (error) => {
+    if(error) {
+      throw error;
+    }
+  });
+});
+
+gulp.task('deploy', () => {
+
+});
 
 gulp.task('deploy:staging', () => {
-  runSequence(
-    'checkout-pull',
-    'build'
+  runSequence (
+    'checkout',
+    'pull',
+    (callback) => {
+      console.log('RUN BUILD TASK');
+    }
   );
 });
 
