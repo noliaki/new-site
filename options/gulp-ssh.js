@@ -4,7 +4,8 @@ const PRODUCTION = {
     host       : 'HOSTNAME',
     port       : 22,
     username   : 'node',
-    privateKey : fs.readFileSync('/path/to/keyfile')
+    password   : 'password',
+    privateKey : 'path/to/keyfile'
   },
   dest : '/path/to/dest'
 };
@@ -15,7 +16,8 @@ const STAGING = {
     host       : 'HOSTNAME',
     port       : 22,
     username   : 'node',
-    privateKey : fs.readFileSync('/path/to/keyfile')
+    password   : 'password',
+    privateKey : 'path/to/keyfile'
   },
   dest : '/path/to/dest'
 };

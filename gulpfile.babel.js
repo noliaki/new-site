@@ -36,7 +36,7 @@ const git          = require('gulp-git');
 const argv         = require('minimist')(process.argv.slice(2));
 
 // gulpssh
-const gulpssh      = require('gulp-ssah');
+const gulpssh      = require('gulp-ssh');
 
 // =============================================
 // CONFIG
@@ -301,42 +301,45 @@ gulp.task('build', (callBack) => {
   );
 });
 
-
+// =============================================
+// deploy
+//
+const deploy = () => {
+  runSequence (
+    'checkout',
+    'pull',
+    'dest-remote'
+  );
+};
 
 gulp.task('checkout', () => {
   let branch = argv.branch || 'master';
   let version = argv.version || 'master';
-  git.checkout(argv.version? `refs/tags/${version}` : branch, (error) => {
+  git.checkout(IS_PROD? `refs/tags/${version}` : branch, (error) => {
     if(error) throw error;
   });
 });
 
 gulp.task('pull', () => {
   git.pull('', '', (error) => {
-    if(error) {
-      throw error;
-    }
+    if(error) throw error;
   });
 });
 
-gulp.task('dest-remote', () => {
-  let ssh = new gulpssh(IS_PROD? CONFIG.ssh.PRODUCTION : CONFIG.ssh.STAGING);
+gulp.task('dest-remote', ['build'], () => {
+  let config = IS_PROD? CONFIG.ssh.PRODUCTION : CONFIG.ssh.STAGING;
+  let ssh = new gulpssh(config);
   return (
-    gulp.src(CONFIG.path.dist)
-    .pipe(ssh.dest(IS_PROD? CONFIG.ssh.PRODUCTION.dest : CONFIG.ssh.STAGING.dest))
+    gulp.src(CONFIG.path.dist + '/**/*')
+    .pipe(ssh.dest(config.dest))
   );
 });
 
 gulp.task('deploy:staging', () => {
-  runSequence (
-    'checkout',
-    'pull',
-    'build',
-    'dest-remote'
-  );
+  deploy();
 });
-
 
 gulp.task('deploy:production', (callBack) => {
   IS_PROD = true;
+  deploy();
 });
