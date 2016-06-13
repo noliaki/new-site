@@ -327,7 +327,7 @@ gulp.task('pull', () => {
 });
 
 gulp.task('dest-remote', ['build'], () => {
-  let config = IS_PROD? CONFIG.ssh.PRODUCTION : CONFIG.ssh.STAGING;
+  let config = IS_PROD? CONFIG.deploy.production : CONFIG.deploy.staging;
   let ssh = new gulpssh(config);
   return (
     gulp.src(CONFIG.path.dist + '/**/*')
@@ -339,7 +339,7 @@ gulp.task('deploy:staging', () => {
   deploy();
 });
 
-gulp.task('deploy:production', (callBack) => {
+gulp.task('deploy:production', () => {
   IS_PROD = true;
   deploy();
 });
