@@ -17,6 +17,5 @@ module.exports = {
   plumber     : require('./options/gulp-plumber.js'),
   sitemap     : require('./options/gulp-sitemap.js'),
   htmlhint    : require('./options/gulp-htmlhint.js'),
-  eslint      : require('./options/gulp-eslint.js'),
-  ssh         : require('./options/gulp-ssh.js')
+  eslint      : require('./options/gulp-eslint.js')
 };
