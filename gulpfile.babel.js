@@ -1,3 +1,5 @@
+'use strict';
+
 const fs           = require('fs');
 const gulp         = require('gulp');
 const rimraf       = require('rimraf');
@@ -27,11 +29,21 @@ const eslint       = require('gulp-eslint');
 // html hint
 const htmlhint     = require('gulp-htmlhint');
 
+// git
+const git          = require('gulp-git');
+
+// minimist
+const argv         = require('minimist')(process.argv.slice(2));
+
+// gulpssh
+const gulpssh      = require('gulp-ssh');
 
 // =============================================
 // CONFIG
 //
 const CONFIG = require('./config.js');
+
+let IS_PROD = false;
 
 // =============================================
 // WATCH SOURCE FILES
@@ -98,7 +110,7 @@ const runGulpTask = (event, filename) => {
   }
 
   runSequence('copy');
-}
+};
 
 // =============================================
 // browser-sync
@@ -117,7 +129,7 @@ gulp.task('pug', () => {
       '!' + CONFIG.path.src + '/_*/',
       '!' + CONFIG.path.src + '/**/_*'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(data(CONFIG.data))
     .pipe(pug(CONFIG.pug))
     .pipe(gulp.dest(CONFIG.path.dist))
@@ -135,7 +147,7 @@ gulp.task('csscomb', () => {
       CONFIG.path.src + '/**/*.scss',
       '!' + CONFIG.path.src + '/**/_variables.scss'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.src))
   );
@@ -149,7 +161,7 @@ gulp.task('sass', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.scss'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(sass(CONFIG.sass).on('error', sass.logError))
     .pipe(pleeease(CONFIG.pleeease))
     .pipe(csscomb())
@@ -166,7 +178,7 @@ gulp.task('pleeease', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.css'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(pleeease(CONFIG.pleeease))
     .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.dist))
@@ -182,7 +194,7 @@ gulp.task('imagemin', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(imagemin(CONFIG.imagemin))
     .pipe(gulp.dest(CONFIG.path.dist))
   );
@@ -198,7 +210,7 @@ gulp.task('babel', () => {
       '!' + CONFIG.path.src + '/_*/',
       '!' + CONFIG.path.src + '/**/_*'
     ])
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(eslint(CONFIG.eslint))
     .pipe(eslint.format())
     .pipe(babel(CONFIG.babel))
@@ -253,7 +265,7 @@ gulp.task('clean', (callBack) => {
 gulp.task('html-hint', () => {
   return (
     gulp.src(CONFIG.path.dist + '/**/*.html')
-    .pipe(plumber(CONFIG.plumber))
+    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(htmlhint(CONFIG.htmlhint))
     .pipe(htmlhint.failReporter())
   );
@@ -287,4 +299,47 @@ gulp.task('build', (callBack) => {
     'sitemap'  ,
     callBack
   );
+});
+
+// =============================================
+// deploy
+//
+const deploy = () => {
+  runSequence (
+    'checkout',
+    'pull',
+    'dest-remote'
+  );
+};
+
+gulp.task('checkout', () => {
+  let branch = argv.branch || 'master';
+  let version = argv.version || 'master';
+  git.checkout(IS_PROD? `refs/tags/${version}` : branch, (error) => {
+    if(error) throw error;
+  });
+});
+
+gulp.task('pull', () => {
+  git.pull('', '', (error) => {
+    if(error) throw error;
+  });
+});
+
+gulp.task('dest-remote', ['build'], () => {
+  let config = IS_PROD? CONFIG.deploy.production : CONFIG.deploy.staging;
+  let ssh = new gulpssh(config);
+  return (
+    gulp.src(CONFIG.path.dist + '/**/*')
+    .pipe(ssh.dest(config.dest))
+  );
+});
+
+gulp.task('deploy:staging', () => {
+  deploy();
+});
+
+gulp.task('deploy:production', () => {
+  IS_PROD = true;
+  deploy();
 });
