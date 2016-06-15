@@ -1,5 +1,7 @@
 # for NEW SITE
 
+[![Build Status](https://travis-ci.org/noliaki/new-site.svg?branch=master)](https://travis-ci.org/noliaki/new-site)
+
 ## 推奨環境
 
 ```sh
@@ -18,6 +20,18 @@ $ git clone git@github.com:noliaki/new-site.git
 $ cd new-site
 $ npm install
 $ gulp
+```
+
+## デプロイ
+
+```sh
+# ステージング
+# branch指定無い場合は`master`
+$ gulp deploy:staging --branch=master
+
+# 本番
+# バージョン指定必須
+$ gulp deploy:production --version=v1.0.0
 ```
 
 ## HTML
