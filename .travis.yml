@@ -1,0 +1,6 @@
+language: node
+node_js:
+  - 5.11.0
+script:
+  - gulp
+  - gulp build
