@@ -1,6 +1,8 @@
-language: node
+language: node_js
 node_js:
   - 5.11.0
+before_script:
+  - npm install -g gulp
 script:
   - gulp
   - gulp build
