@@ -1,6 +1,7 @@
 # for NEW SITE
 
 [![Build Status](https://travis-ci.org/noliaki/new-site.svg?branch=master)](https://travis-ci.org/noliaki/new-site)
+[![devDependency Status](https://david-dm.org/noliaki/new-site/master/dev-status.svg)](https://david-dm.org/noliaki/new-site/master#info=devDependencies)
 
 ## 推奨環境
 
