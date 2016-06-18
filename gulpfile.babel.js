@@ -274,14 +274,9 @@ gulp.task('html-hint', () => {
 // =============================================
 // gulp default task
 //
-gulp.task('default', () => {
+gulp.task('default', ['build'], () => {
   runSequence(
-    'clean',
-    'pleeease',
-    'csscomb',
-    ['copy', 'pug', 'sass', 'imagemin', 'babel'],
     'browser-sync',
-    'html-hint',
     watchSourceFiles
   );
 });
@@ -315,14 +310,26 @@ const deploy = () => {
 gulp.task('checkout', () => {
   let branch = argv.branch || 'master';
   let version = argv.version || 'master';
-  git.checkout(IS_PROD? `refs/tags/${version}` : branch, (error) => {
-    if(error) throw error;
+  return new Promise((resolve, reject) => {
+    git.checkout(IS_PROD? `refs/tags/${version}` : branch, (error) => {
+      if(error) {
+        throw new Error(error);
+        reject();
+      }
+      resolve();
+    });
   });
 });
 
 gulp.task('pull', () => {
-  git.pull('', '', (error) => {
-    if(error) throw error;
+  return new Promise((resolve, reject) => {
+    git.pull('', '', (error) => {
+      if(error) {
+        throw new Error(error);
+        reject();
+      }
+      resolve();
+    });
   });
 });
 
@@ -340,6 +347,10 @@ gulp.task('deploy:staging', () => {
 });
 
 gulp.task('deploy:production', () => {
+  if (!argv.version) {
+    throw new Error('"version" is required');
+    return;
+  }
   IS_PROD = true;
   deploy();
 });
