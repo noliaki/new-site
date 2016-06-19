@@ -20,7 +20,6 @@ const pleeease     = require('gulp-pleeease');
 
 // image
 const imagemin     = require('gulp-imagemin');
-const pngquant     = require('imagemin-pngquant');
 
 // js
 const babel        = require('gulp-babel');
@@ -83,7 +82,7 @@ const runGulpTask = (event, filename) => {
 
   if( /(\.html)$/.test(filename) ) {
     runSequence(
-      'export-html',
+      'copy',
       'html-hint'
     );
     return;
@@ -195,7 +194,7 @@ gulp.task('imagemin', () => {
       CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'
     ])
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
-    .pipe(imagemin(CONFIG.imagemin))
+    .pipe(imagemin(CONFIG.imagemin.plugins, CONFIG.imagemin.verbose))
     .pipe(gulp.dest(CONFIG.path.dist))
   );
 });
@@ -267,7 +266,7 @@ gulp.task('html-hint', () => {
     gulp.src(CONFIG.path.dist + '/**/*.html')
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(htmlhint(CONFIG.htmlhint))
-    .pipe(htmlhint.failReporter())
+    .pipe(htmlhint.reporter())
   );
 });
 
