@@ -1,9 +1,2 @@
 ---
-  extends: eslint:recommended
-  env:
-    browser: true
-    es6: true
-  rules:
-    eqeqeq: error
-    strict: [2, global]
-    semi: [2, always]
+  extends: standard
