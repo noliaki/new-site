@@ -34,6 +34,9 @@ const git          = require('gulp-git');
 // minimist
 const argv         = require('minimist')(process.argv.slice(2));
 
+// cached
+const cached       = require('gulp-cached');
+
 // gulpssh
 const gulpssh      = require('gulp-ssh');
 
@@ -47,22 +50,22 @@ let IS_PROD = false;
 // =============================================
 // WATCH SOURCE FILES
 //
-const watchSourceFiles = () => {
+const beginWatch = () => {
   console.log('-----------------------------');
-  console.log(`START WATCHING : ${CONFIG.path.src}`);
+  console.log(`BEGIN WATCHING : ${CONFIG.path.src}`);
   console.log('-----------------------------');
 
   fs.watch(CONFIG.path.src, { recursive : true }, (event, filename) => {
     console.log(`${event} | ${filename}`);
 
-    if(event === 'rename'){
-      const distFile = filename.replace(/(\.pug)$/, '.html').replace(/(\.scss)$/, '.css');
-
-      return rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
-        runGulpTask(event, filename);
-      });
+    if (event !== 'rename') {
+      return runGulpTask(event, filename);
     }
-    runGulpTask(event, filename);
+
+    const distFile = filename.replace(/(\.pug)$/, '.html').replace(/(\.scss)$/, '.css');
+    rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
+      runGulpTask(event, filename);
+    });
   });
 };
 
@@ -120,6 +123,7 @@ gulp.task('pug', () => {
       '!' + CONFIG.path.src + '/_*/',
       '!' + CONFIG.path.src + '/**/_*'
     ])
+    .pipe(cached('pug'))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(data(CONFIG.data))
     .pipe(pug(CONFIG.pug))
@@ -138,6 +142,7 @@ gulp.task('csscomb', () => {
       CONFIG.path.src + '/**/*.scss',
       '!' + CONFIG.path.src + '/**/_variables.scss'
     ])
+    .pipe(cached('csscomb'))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.src))
@@ -152,6 +157,7 @@ gulp.task('sass', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.scss'
     ])
+    .pipe(cached('sass'))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(sass(CONFIG.sass).on('error', sass.logError))
     .pipe(pleeease(CONFIG.pleeease))
@@ -169,6 +175,7 @@ gulp.task('pleeease', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.css'
     ])
+    .pipe(cached('pleeease'))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(pleeease(CONFIG.pleeease))
     .pipe(csscomb())
@@ -185,6 +192,7 @@ gulp.task('imagemin', () => {
     gulp.src([
       CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'
     ])
+    .pipe(cached('imagemin'))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(imagemin(CONFIG.imagemin.plugins, CONFIG.imagemin.verbose))
     .pipe(gulp.dest(CONFIG.path.dist))
@@ -201,6 +209,7 @@ gulp.task('babel', () => {
       '!' + CONFIG.path.src + '/_*/',
       '!' + CONFIG.path.src + '/**/_*'
     ])
+    .pipe(cached('babel'))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(eslint(CONFIG.eslint))
     .pipe(eslint.format())
@@ -228,6 +237,7 @@ gulp.task('copy', () => {
       '!' + CONFIG.path.src + '/_*/'                         ,
       '!' + CONFIG.path.src + '/**/_*'
     ])
+    .pipe(cached('copy'))
     .pipe(gulp.dest(CONFIG.path.dist))
   );
 });
@@ -268,7 +278,8 @@ gulp.task('html-hint', () => {
 gulp.task('default', ['build'], () => {
   runSequence(
     'browser-sync',
-    watchSourceFiles
+    'html-hint',
+    beginWatch
   );
 });
 
