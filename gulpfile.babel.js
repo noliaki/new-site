@@ -58,14 +58,14 @@ const beginWatch = () => {
   fs.watch(CONFIG.path.src, { recursive : true }, (event, filename) => {
     console.log(`${event} | ${filename}`);
 
-    if(event === 'rename'){
-      const distFile = filename.replace(/(\.pug)$/, '.html').replace(/(\.scss)$/, '.css');
-
-      return rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
-        runGulpTask(event, filename);
-      });
+    if (event !== 'rename') {
+      return runGulpTask(event, filename);
     }
-    runGulpTask(event, filename);
+
+    const distFile = filename.replace(/(\.pug)$/, '.html').replace(/(\.scss)$/, '.css');
+    rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
+      runGulpTask(event, filename);
+    });
   });
 };
 
