@@ -58,11 +58,9 @@ const watchSourceFiles = () => {
     if(event === 'rename'){
       const distFile = filename.replace(/(\.pug)$/, '.html').replace(/(\.scss)$/, '.css');
 
-      rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
+      return rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
         runGulpTask(event, filename);
       });
-
-      return;
     }
     runGulpTask(event, filename);
   });
@@ -73,39 +71,33 @@ const watchSourceFiles = () => {
 //
 const runGulpTask = (event, filename) => {
   if( /(\.pug)$/.test(filename) ) {
-    runSequence(
+    return runSequence(
       'pug',
       'html-hint'
     );
-    return;
   }
 
   if( /(\.html)$/.test(filename) ) {
-    runSequence(
+    return runSequence(
       'copy',
       'html-hint'
     );
-    return;
   }
 
   if( /(\.js)$/.test(filename) ) {
-    runSequence('babel');
-    return;
+    return runSequence('babel');
   }
 
   if( /(\.scss)$/.test(filename) ) {
-    runSequence('sass');
-    return;
+    return runSequence('sass');
   }
 
   if( /(\.css)$/.test(filename) ) {
-    runSequence('pleeease');
-    return;
+    return runSequence('pleeease');
   }
 
   if( /(\.(jpg|jpeg|png|gif|svg))$/.test(filename) ) {
-    runSequence('imagemin');
-    return;
+    return runSequence('imagemin');
   }
 
   runSequence('copy');
@@ -348,7 +340,6 @@ gulp.task('deploy:staging', () => {
 gulp.task('deploy:production', () => {
   if (!argv.version) {
     throw new Error('"version" is required');
-    return;
   }
   IS_PROD = true;
   deploy();
