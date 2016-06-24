@@ -5,7 +5,7 @@ meta(property='og:title'       content = TITLE)
 meta(property='og:image'       content = '')
 meta(property='og:description' content = DESCRIPTION)
 meta(property='og:site_name'   content = SITE_INFO.name)
-meta(property='og:locale'      content = 'ja_JP')
+meta(property='og:locale'      content = (PAGE_INFO.lang === 'en' ? 'en_US' : 'ja_JP'))
 meta(property='article:author' content = '')
 //- Facebook: https://developers.facebook.com/docs/sharing/webmasters#markup
 //- Open Graph: http://ogp.me/

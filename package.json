@@ -39,6 +39,7 @@
     "gulp-ssh": "^0.6.0",
     "gulp-uglify": "^1.5.4",
     "imagemin-pngquant": "^5.0.0",
+    "js-yaml": "^3.6.1",
     "minimist": "^1.2.0",
     "rimraf": "^2.5.2",
     "run-sequence": "^1.2.1"
