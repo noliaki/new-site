@@ -1,22 +1,12 @@
-# for NEW SITE
+# template NEW SITE
 
-[![node](https://img.shields.io/badge/node-v5.11.x-yellow.svg)](https://github.com/noliaki/new-site/blob/master/README.md)
+[![node](https://img.shields.io/badge/node-v5.12.x-yellow.svg)](https://github.com/noliaki/new-site/blob/master/README.md)
 [![npm](https://img.shields.io/badge/npm-3.8.6-blue.svg)](https://github.com/noliaki/new-site/blob/master/README.md)
 [![Build Status](https://travis-ci.org/noliaki/new-site.svg?branch=master)](https://travis-ci.org/noliaki/new-site)
 [![devDependency Status](https://david-dm.org/noliaki/new-site/master/dev-status.svg)](https://david-dm.org/noliaki/new-site/master#info=devDependencies)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/noliaki/new-site/blob/master/README.md)
 
-## 推奨環境
-
-```sh
-$ node -v
-v5.11.0
-
-$ npm -v
-3.8.6
-```
-
-## 構築手順
+## USAGE
 
 ```sh
 $ npm install -g gulp
@@ -26,38 +16,27 @@ $ npm install
 $ gulp
 ```
 
-## デプロイ
+## DEPLOY COMMAND
 
 ```sh
-# ステージング
-# branch指定無い場合は`master`
-$ gulp deploy:staging --branch=master
+# for staging
+# default branch is `master`
+$ gulp deploy:staging --branch=hogebranch
 
-# 本番
-# バージョン指定必須
+# for production
+# `version` environment variable is required
 $ gulp deploy:production --version=v1.0.0
 ```
 
 ## HTML
 
-### ~~jade~~ Pug
-
-* 記述量の削減
-* レイアウト・テンプレート機能
-* 閉じタグミスを排除
-* コードの平坦化
-* hamlよりinclude、extend機能など充実してた
-（gulp-ruby-hamlがwindowsでどうなの？ってのもある）
+using `Pug`
 
 ## CSS
 
-[FLOCSS](https://github.com/hiloki/flocss)を採用
+using `SASS`
 
-### SASS
-
-* 記述量の削減
-
-### ルール
+### RULES
 
 #### インデントは2スペース
 
