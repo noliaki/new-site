@@ -2,7 +2,7 @@
 // options
 //
 module.exports = {
-  SITE_INFO   : require('./configs/site-info.js'),
+  SITE_CONF   : require('./configs/site-config.js'),
   path        : require('./configs/path-env.js'),
   deploy      : require('./configs/deploy.js'),
 

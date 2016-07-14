@@ -14,11 +14,11 @@ head(prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# mixi: http://mixi-pl
   include ./_head_meta_twitter
 
   //-================ FAVICON ================-//
-  link(rel='icon', href = SITE_INFO.favicon_path)
+  link(rel='icon', href = SITE_CONF.favicon_path)
 
   //-================ STYLE ================-//
   link(rel='stylesheet', href='css/style.css')
   block style
 
   //-================ TITLE ================-//
-  title= TITLE? TITLE + ' | ' + SITE_INFO.name : SITE_INFO.name
+  title= TITLE? TITLE + ' | ' + SITE_CONF.name : SITE_CONF.name

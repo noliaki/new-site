@@ -1,5 +1,5 @@
 module.exports = {
-  errorHandler: (error) => {
+  errorHandler : (error) => {
     console.log('-------------');
     console.log(`【ERROR】${error.plugin}`);
     console.log(`【file】${error.fileName}`);

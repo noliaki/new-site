@@ -1,6 +1,6 @@
 const path      = require('path');
 const pathEnv   = require('../configs/path-env.js');
-const SITE_INFO = require('../configs/site-info.js');
+const SITE_CONF = require('../configs/site-config.js');
 
 module.exports = (file) => {
   const filePath = file.path.replace(pathEnv.src, '');
@@ -8,10 +8,10 @@ module.exports = (file) => {
   pathInfo.ext = '.html';
   pathInfo.base = '';
   return {
-    SITE_INFO,
-    PAGE_INFO: {
-      local_path: path.format(pathInfo),
-      absolute_path: '//' + SITE_INFO.domain + path.format(pathInfo)
+    SITE_CONF,
+    PAGE_INFO : {
+      local_path    : path.format(pathInfo),
+      absolute_path : '//' + SITE_CONF.domain + path.format(pathInfo)
     }
   }
 }

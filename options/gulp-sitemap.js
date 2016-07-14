@@ -1,6 +1,6 @@
-const SITE_INFO = require('../configs/site-info.js');
+const SITE_CONF = require('../configs/site-config.js');
 
 module.exports = {
-  siteUrl: '//' + SITE_INFO.domain,
+  siteUrl: '//' + SITE_CONF.domain,
   spacing: '  '
 }

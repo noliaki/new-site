@@ -1,10 +1,8 @@
+const SITE_CONF = require('../configs/site-config.js');
+
 module.exports = {
-  minifier: false,
-  mqpacker: true,
-  import  : false,
-  browsers: [
-    '> 1% in JP'     ,
-    'last 2 versions',
-    'ie >= 8'
-  ]
+  minifier : false,
+  mqpacker : true,
+  import   : false,
+  browsers : SITE_CONF.browsers
 }
