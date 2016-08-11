@@ -8,7 +8,6 @@ const runSequence  = require('run-sequence');
 const plumber      = require('gulp-plumber');
 const data         = require('gulp-data');
 const sitemap      = require('gulp-sitemap');
-const browserSync  = require('browser-sync').create();
 
 // pug
 const pug          = require('gulp-pug');
@@ -20,10 +19,6 @@ const pleeease     = require('gulp-pleeease');
 
 // image
 const imagemin     = require('gulp-imagemin');
-
-// js
-const babel        = require('gulp-babel');
-const eslint       = require('gulp-eslint');
 
 // html hint
 const htmlhint     = require('gulp-htmlhint');
@@ -46,6 +41,9 @@ const gulpssh      = require('gulp-ssh');
 const CONFIG = require('./config.js');
 
 let IS_PROD = false;
+
+const gulpBabel = require('./options/gulp-babel.js')
+const browserSync = require('./options/browser-sync.js')
 
 // =============================================
 // WATCH SOURCE FILES
@@ -109,9 +107,7 @@ const runGulpTask = (event, filename) => {
 // =============================================
 // browser-sync
 //
-gulp.task('browser-sync', () => {
-  browserSync.init(CONFIG.browserSync);
-});
+gulp.task('browser-sync', browserSync)
 
 // =============================================
 // pug
@@ -202,25 +198,7 @@ gulp.task('imagemin', () => {
 // =============================================
 // babel
 //
-gulp.task('babel', () => {
-  return (
-    gulp.src([
-      CONFIG.path.src + '/**/*.js',
-      '!' + CONFIG.path.src + '/_*/',
-      '!' + CONFIG.path.src + '/**/_*'
-    ])
-    .pipe(cached('babel'))
-    .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
-    .pipe(eslint(CONFIG.eslint))
-    .pipe(eslint.format())
-    .pipe(babel(CONFIG.babel))
-    .on('error', (error) => {
-      console.error('Error!', error.message);
-    })
-    .pipe(gulp.dest(CONFIG.path.dist))
-    .pipe(browserSync.stream())
-  );
-});
+gulp.task('babel', gulpBabel);
 
 // =============================================
 // copy
