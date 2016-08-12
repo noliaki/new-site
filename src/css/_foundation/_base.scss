@@ -3,20 +3,11 @@
 }
 
 html {
-  overflow-y: scroll;
-  text-size-adjust: 100%;
-  font-size: $size-font-base;
+  overflow-y: scroll; text-size-adjust: 100%; font-size: $size-font-base;
 }
 
 body {
-  min-width: $size-inner;
-  color: $color-font;
-  text-size-adjust: 100%;
-  font-family: $font-family-base;
-  font-smooth: always;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: $line-height-base;
+  min-width: $size-inner; color: $color-font; text-size-adjust: 100%; font-family: $font-family-base; font-smooth: always; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; line-height: $line-height-base;
 }
 
 @-ms-viewport {
@@ -27,8 +18,7 @@ body {
 //  selection color
 // =============================================
 ::selection {
-  color: $color-selection-font;
-  background: $color-selection-bg;
+  color: $color-selection-font; background: $color-selection-bg;
 }
 
 // =============================================
@@ -62,6 +52,5 @@ a {
 //  img style
 // =============================================
 img {
-  max-width: 100%;
-  vertical-align: bottom;
+  max-width: 100%; vertical-align: bottom;
 }

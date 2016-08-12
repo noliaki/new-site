@@ -16,7 +16,7 @@ const pug          = require('gulp-pug');
 // css (sass)
 const sass         = require('gulp-sass');
 const csscomb      = require('gulp-csscomb');
-const pleeease     = require('gulp-pleeease');
+const autoprefixer = require('gulp-autoprefixer');
 
 // image
 const imagemin     = require('gulp-imagemin');
@@ -96,7 +96,7 @@ const runGulpTask = (event, filename) => {
   }
 
   if( /(\.css)$/.test(filename) ) {
-    return runSequence('pleeease');
+    return runSequence('autoprefixer');
   }
 
   if( /(\.(jpg|jpeg|png|gif|svg))$/.test(filename) ) {
@@ -160,7 +160,7 @@ gulp.task('sass', () => {
     .pipe(cached('sass'))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(sass(CONFIG.sass).on('error', sass.logError))
-    .pipe(pleeease(CONFIG.pleeease))
+    .pipe(autoprefixer(CONFIG.autoprefixer))
     .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.dist))
     .pipe(browserSync.stream())
@@ -168,16 +168,16 @@ gulp.task('sass', () => {
 });
 
 // =============================================
-// pleeease
+// autoprefixer
 //
-gulp.task('pleeease', () => {
+gulp.task('autoprefixer', () => {
   return (
     gulp.src([
       CONFIG.path.src + '/**/*.css'
     ])
-    .pipe(cached('pleeease'))
+    .pipe(cached('autoprefixer'))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
-    .pipe(pleeease(CONFIG.pleeease))
+    .pipe(autoprefixer(CONFIG.autoprefixer))
     .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.dist))
     .pipe(browserSync.stream())
@@ -289,7 +289,7 @@ gulp.task('default', ['build'], () => {
 gulp.task('build', (callBack) => {
   runSequence(
     'clean'    ,
-    'pleeease' ,
+    'autoprefixer' ,
     'csscomb'  ,
     ['copy', 'pug', 'sass', 'imagemin', 'babel'],
     'html-hint',
