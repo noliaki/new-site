@@ -9,11 +9,10 @@
 ## USAGE
 
 ```sh
-$ npm install -g gulp
 $ git clone git@github.com:noliaki/new-site.git
 $ cd new-site
 $ npm install
-$ gulp
+$ npm run build
 ```
 
 ## DEPLOY COMMAND
