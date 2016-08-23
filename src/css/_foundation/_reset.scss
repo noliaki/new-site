@@ -65,10 +65,7 @@ time,
 mark,
 audio,
 video {
-  margin: 0;
-  padding: 0;
-  vertical-align: baseline;
-  border: 0;
+  margin: 0; padding: 0; vertical-align: baseline; border: 0;
 }
 
 article,
@@ -99,8 +96,7 @@ var {
 }
 
 table {
-  border-spacing: 0;
-  border-collapse: collapse;
+  border-spacing: 0; border-collapse: collapse;
 }
 
 caption,
@@ -144,6 +140,5 @@ a {
 
 button::-moz-focus-inner,
 input::-moz-focus-inner {
-  padding: 0;
-  border: 0;
+  padding: 0; border: 0;
 }

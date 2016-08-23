@@ -7,6 +7,9 @@
 // inner
 //
 .inner {
-  width: $size-inner;
-  margin: 0 auto;
+  width: $size-inner; margin: 0 auto;
+}
+
+.outer {
+  width: 1000px;
 }
