@@ -161,7 +161,6 @@ gulp.task('sass', () => {
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(sass(CONFIG.sass).on('error', sass.logError))
     .pipe(autoprefixer(CONFIG.autoprefixer))
-    .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.dist))
     .pipe(browserSync.stream())
   );
