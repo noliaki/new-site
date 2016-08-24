@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "gulp build"
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "imagemin": "gulp imagemin",
+    "pug": "gulp pug",
+    "csscomb": "gulp csscomb",
+    "babel": "gulp babel",
+    "html-hint": "gulp html-hint"
   },
   "repository": {
     "type": "git",
