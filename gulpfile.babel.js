@@ -314,8 +314,8 @@ gulp.task('checkout', () => {
   return new Promise((resolve, reject) => {
     git.checkout(IS_PROD? `refs/tags/${version}` : branch, (error) => {
       if(error) {
-        throw new Error(error);
         reject();
+        throw new Error(error);
       }
       resolve();
     });
@@ -326,8 +326,8 @@ gulp.task('pull', () => {
   return new Promise((resolve, reject) => {
     git.pull('', '', (error) => {
       if(error) {
-        throw new Error(error);
         reject();
+        throw new Error(error);
       }
       resolve();
     });
