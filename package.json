@@ -10,7 +10,8 @@
     "pug": "gulp pug",
     "csscomb": "gulp csscomb",
     "babel": "gulp babel",
-    "html-hint": "gulp html-hint"
+    "html-hint": "gulp html-hint",
+    "gulp": "gulp"
   },
   "repository": {
     "type": "git",
