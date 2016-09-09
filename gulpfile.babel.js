@@ -189,7 +189,8 @@ gulp.task('autoprefixer', () => {
 gulp.task('imagemin', () => {
   return (
     gulp.src([
-      CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)'
+      CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
+      '!' + CONFIG.path.src + '/**/*-no-compress.+(jpg|jpeg|png|gif|svg)'
     ])
     .pipe(cached('imagemin'))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
@@ -224,7 +225,17 @@ gulp.task('babel', () => {
 // =============================================
 // copy
 //
-gulp.task('copy', () => {
+gulp.task('copy-no-compress-image', () => {
+  return (
+    gulp.src([
+      CONFIG.path.src + '/**/*-no-compress.+(jpg|jpeg|png|gif|svg)'
+    ])
+    .pipe(cached('copy-no-compress-image'))
+    .pipe(gulp.dest(CONFIG.path.dist))
+  );
+});
+
+gulp.task('copy', ['copy-no-compress-image'], () => {
   return (
     gulp.src([
       CONFIG.path.src + '/**/*'                              ,
