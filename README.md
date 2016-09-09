@@ -1,7 +1,7 @@
 # template NEW SITE
 
-[![node](https://img.shields.io/badge/node-v5.12.x-yellow.svg)](https://github.com/noliaki/new-site/blob/master/README.md)
-[![npm](https://img.shields.io/badge/npm-3.8.6-blue.svg)](https://github.com/noliaki/new-site/blob/master/README.md)
+[![node](https://img.shields.io/badge/node-v6.5.x-yellow.svg)](https://github.com/noliaki/new-site/blob/master/README.md)
+[![npm](https://img.shields.io/badge/npm-3.10.3-blue.svg)](https://github.com/noliaki/new-site/blob/master/README.md)
 [![Build Status](https://travis-ci.org/noliaki/new-site.svg?branch=master)](https://travis-ci.org/noliaki/new-site)
 [![devDependency Status](https://david-dm.org/noliaki/new-site/master/dev-status.svg)](https://david-dm.org/noliaki/new-site/master#info=devDependencies)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/noliaki/new-site/blob/master/README.md)
