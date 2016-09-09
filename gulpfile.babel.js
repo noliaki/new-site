@@ -206,8 +206,7 @@ gulp.task('babel', () => {
   return (
     gulp.src([
       CONFIG.path.src + '/**/*.js',
-      '!' + CONFIG.path.src + '/_*/',
-      '!' + CONFIG.path.src + '/**/_*'
+      '!' + CONFIG.path.src + '/**/*.min.js'
     ])
     .pipe(cached('babel'))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
@@ -225,17 +224,18 @@ gulp.task('babel', () => {
 // =============================================
 // copy
 //
-gulp.task('copy-no-compress-image', () => {
+gulp.task('copy-excepted-files', () => {
   return (
     gulp.src([
-      CONFIG.path.src + '/**/*-no-compress.+(jpg|jpeg|png|gif|svg)'
+      CONFIG.path.src + '/**/*-no-compress.+(jpg|jpeg|png|gif|svg)',
+      CONFIG.path.src + '/**/*.min.js'
     ])
-    .pipe(cached('copy-no-compress-image'))
+    .pipe(cached('copy-excepted-files'))
     .pipe(gulp.dest(CONFIG.path.dist))
   );
 });
 
-gulp.task('copy', ['copy-no-compress-image'], () => {
+gulp.task('copy', ['copy-excepted-files'], () => {
   return (
     gulp.src([
       CONFIG.path.src + '/**/*'                              ,
