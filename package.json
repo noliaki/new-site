@@ -45,7 +45,6 @@
     "gulp-sass": "^2.3.2",
     "gulp-sitemap": "^4.2.0",
     "gulp-ssh": "^0.6.0",
-    "gulp-uglify": "^2.0.0",
     "imagemin-pngquant": "^5.0.0",
     "minimist": "^1.2.0",
     "rimraf": "^2.5.2",
