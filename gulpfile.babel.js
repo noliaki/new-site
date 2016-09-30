@@ -63,8 +63,16 @@ const beginWatch = () => {
     }
 
     const distFile = filename.replace(/(\.pug)$/, '.html').replace(/(\.scss)$/, '.css');
-    rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
-      runGulpTask(event, filename);
+    const distFilePath  = `${CONFIG.path.dist}/${distFile}`;
+    fs.exists(distFilePath, (exists) => {
+      if (!exists) {
+        runGulpTask(event, filename);
+        return;
+      }
+
+      rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
+        runGulpTask(event, filename);
+      });
     });
   });
 };
