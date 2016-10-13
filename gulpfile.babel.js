@@ -28,17 +28,12 @@ const eslint       = require('gulp-eslint');
 // html hint
 const htmlhint     = require('gulp-htmlhint');
 
-// git
-const git          = require('gulp-git');
-
 // minimist
 const argv         = require('minimist')(process.argv.slice(2));
 
 // cached
 const cached       = require('gulp-cached');
 
-// gulpssh
-const gulpssh      = require('gulp-ssh');
 
 // =============================================
 // CONFIG
@@ -314,62 +309,4 @@ gulp.task('build', (callBack) => {
     'sitemap'  ,
     callBack
   );
-});
-
-// =============================================
-// deploy
-//
-const deploy = () => {
-  runSequence (
-    'checkout',
-    'pull',
-    'dest-remote'
-  );
-};
-
-gulp.task('checkout', () => {
-  let branch = argv.branch || 'master';
-  let version = argv.version || 'master';
-  return new Promise((resolve, reject) => {
-    git.checkout(IS_PROD? `refs/tags/${version}` : branch, (error) => {
-      if(error) {
-        reject();
-        throw new Error(error);
-      }
-      resolve();
-    });
-  });
-});
-
-gulp.task('pull', () => {
-  return new Promise((resolve, reject) => {
-    git.pull('', '', (error) => {
-      if(error) {
-        reject();
-        throw new Error(error);
-      }
-      resolve();
-    });
-  });
-});
-
-gulp.task('dest-remote', ['build'], () => {
-  let config = IS_PROD? CONFIG.deploy.production : CONFIG.deploy.staging;
-  let ssh = new gulpssh(config);
-  return (
-    gulp.src(CONFIG.path.dist + '/**/*')
-    .pipe(ssh.dest(config.dest))
-  );
-});
-
-gulp.task('deploy:staging', () => {
-  deploy();
-});
-
-gulp.task('deploy:production', () => {
-  if (!argv.version) {
-    throw new Error('"version" is required');
-  }
-  IS_PROD = true;
-  deploy();
 });

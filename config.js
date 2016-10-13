@@ -4,7 +4,6 @@
 module.exports = {
   SITE_CONF    : require('./configs/site-config.js'),
   path         : require('./configs/path-env.js'),
-  deploy       : require('./configs/deploy.js'),
 
   browserSync  : require('./options/browser-sync.js'),
   pug          : require('./options/gulp-pug.js'),
