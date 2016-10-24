@@ -54,18 +54,20 @@ const beginWatch = () => {
     console.log(`${event} | ${filename}`);
 
     if (event !== 'rename') {
-      return runGulpTask(event, filename);
+      runGulpTask(event, filename);
+      return;
     }
 
     const distFile = filename.replace(/(\.pug)$/, '.html').replace(/(\.scss)$/, '.css');
     const distFilePath  = `${CONFIG.path.dist}/${distFile}`;
-    fs.exists(distFilePath, (exists) => {
-      if (!exists) {
+
+    fs.stat(distFilePath, (error, stats) => {
+      if (error) {
         runGulpTask(event, filename);
         return;
       }
 
-      rimraf(CONFIG.path.dist + '/' + distFile, (callBack) => {
+      rimraf(distFilePath, (callBack) => {
         runGulpTask(event, filename);
       });
     });
