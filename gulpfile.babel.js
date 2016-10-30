@@ -1,9 +1,7 @@
 'use strict';
 
-const fs           = require('fs');
 const gulp         = require('gulp');
 const rimraf       = require('rimraf');
-const uglify       = require('gulp-uglify');
 const runSequence  = require('run-sequence');
 const plumber      = require('gulp-plumber');
 const data         = require('gulp-data');
@@ -28,88 +26,59 @@ const eslint       = require('gulp-eslint');
 // html hint
 const htmlhint     = require('gulp-htmlhint');
 
-// minimist
-const argv         = require('minimist')(process.argv.slice(2));
-
 // cached
 const cached       = require('gulp-cached');
 
+// watch
+const watch        = require('gulp-watch')
 
 // =============================================
 // CONFIG
 //
 const CONFIG = require('./config.js');
 
+const filePath = {
+  pug: [
+    CONFIG.path.src + '/**/*.pug',
+    '!' + CONFIG.path.src + '/_*/',
+    '!' + CONFIG.path.src + '/**/_*'
+  ],
+  csscomb: [
+    CONFIG.path.src + '/**/*.css' ,
+    CONFIG.path.src + '/**/*.scss',
+    '!' + CONFIG.path.src + '/**/_variables.scss'
+  ],
+  sass: [
+    CONFIG.path.src + '/**/*.scss'
+  ],
+  autoprefixer: [
+    CONFIG.path.src + '/**/*.css'
+  ],
+  imagemin: [
+    CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
+    '!' + CONFIG.path.src + '/**/*-no-compress.+(jpg|jpeg|png|gif|svg)'
+  ],
+  babel: [
+    CONFIG.path.src + '/**/*.js',
+    '!' + CONFIG.path.src + '/**/*.min.js'
+  ],
+  copyExceptedFiles: [
+    CONFIG.path.src + '/**/*-no-compress.+(jpg|jpeg|png|gif|svg)',
+    CONFIG.path.src + '/**/*.min.js'
+  ],
+  copy: [
+    CONFIG.path.src + '/**/*'                              ,
+    '!' + CONFIG.path.src + '/**/*.pug'                    ,
+    '!' + CONFIG.path.src + '/**/*.js'                     ,
+    '!' + CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
+    '!' + CONFIG.path.src + '/**/*.scss'                   ,
+    '!' + CONFIG.path.src + '/**/*.css'                    ,
+    '!' + CONFIG.path.src + '/_*/'                         ,
+    '!' + CONFIG.path.src + '/**/_*'
+  ]
+}
+
 let IS_PROD = false;
-
-// =============================================
-// WATCH SOURCE FILES
-//
-const beginWatch = () => {
-  console.log('-----------------------------');
-  console.log(`BEGIN WATCHING : ${CONFIG.path.src}`);
-  console.log('-----------------------------');
-
-  fs.watch(CONFIG.path.src, { recursive : true }, (event, filename) => {
-    console.log(`${event} | ${filename}`);
-
-    if (event !== 'rename') {
-      runGulpTask(event, filename);
-      return;
-    }
-
-    const distFile = filename.replace(/(\.pug)$/, '.html').replace(/(\.scss)$/, '.css');
-    const distFilePath  = `${CONFIG.path.dist}/${distFile}`;
-
-    fs.stat(distFilePath, (error, stats) => {
-      if (error) {
-        runGulpTask(event, filename);
-        return;
-      }
-
-      rimraf(distFilePath, (callBack) => {
-        runGulpTask(event, filename);
-      });
-    });
-  });
-};
-
-// =============================================
-// run gulp task when file changed
-//
-const runGulpTask = (event, filename) => {
-  if( /(\.pug)$/.test(filename) ) {
-    return runSequence(
-      'pug',
-      'html-hint'
-    );
-  }
-
-  if( /(\.html)$/.test(filename) ) {
-    return runSequence(
-      'copy',
-      'html-hint'
-    );
-  }
-
-  if( /(\.js)$/.test(filename) ) {
-    return runSequence('babel');
-  }
-
-  if( /(\.scss)$/.test(filename) ) {
-    return runSequence('sass');
-  }
-
-  if( /(\.css)$/.test(filename) ) {
-    return runSequence('autoprefixer');
-  }
-
-  if( /(\.(jpg|jpeg|png|gif|svg))$/.test(filename) ) {
-    return runSequence('imagemin');
-  }
-
-  runSequence('copy');
-};
 
 // =============================================
 // browser-sync
@@ -123,12 +92,9 @@ gulp.task('browser-sync', () => {
 //
 gulp.task('pug', () => {
   return (
-    gulp.src([
-      CONFIG.path.src + '/**/*.pug',
-      '!' + CONFIG.path.src + '/_*/',
-      '!' + CONFIG.path.src + '/**/_*'
-    ])
-    .pipe(cached('pug'))
+    gulp.src(filePath.pug)
+    // .pipe(cached('pug'))
+    // .pipe(watch(filePath))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(data(CONFIG.data))
     .pipe(pug(CONFIG.pug))
@@ -142,12 +108,9 @@ gulp.task('pug', () => {
  //
 gulp.task('csscomb', () => {
   return (
-    gulp.src([
-      CONFIG.path.src + '/**/*.css' ,
-      CONFIG.path.src + '/**/*.scss',
-      '!' + CONFIG.path.src + '/**/_variables.scss'
-    ])
-    .pipe(cached('csscomb'))
+    gulp.src(filePath.csscomb)
+    // .pipe(cached('csscomb'))
+    // .pipe(watch(filePath))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(csscomb())
     .pipe(gulp.dest(CONFIG.path.src))
@@ -159,10 +122,9 @@ gulp.task('csscomb', () => {
 //
 gulp.task('sass', () => {
   return (
-    gulp.src([
-      CONFIG.path.src + '/**/*.scss'
-    ])
-    .pipe(cached('sass'))
+    gulp.src(filePath.sass)
+    // .pipe(cached('sass'))
+    // .pipe(watch(filePath))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(sass(CONFIG.sass).on('error', sass.logError))
     .pipe(autoprefixer(CONFIG.autoprefixer))
@@ -176,10 +138,9 @@ gulp.task('sass', () => {
 //
 gulp.task('autoprefixer', () => {
   return (
-    gulp.src([
-      CONFIG.path.src + '/**/*.css'
-    ])
-    .pipe(cached('autoprefixer'))
+    gulp.src(filePath.autoprefixer)
+    // .pipe(cached('autoprefixer'))
+    // .pipe(watch(filePath))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(autoprefixer(CONFIG.autoprefixer))
     .pipe(csscomb())
@@ -193,10 +154,7 @@ gulp.task('autoprefixer', () => {
 //
 gulp.task('imagemin', () => {
   return (
-    gulp.src([
-      CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
-      '!' + CONFIG.path.src + '/**/*-no-compress.+(jpg|jpeg|png|gif|svg)'
-    ])
+    gulp.src(filePath.imagemin)
     .pipe(cached('imagemin'))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(imagemin(CONFIG.imagemin.plugins, CONFIG.imagemin.verbose))
@@ -209,11 +167,7 @@ gulp.task('imagemin', () => {
 //
 gulp.task('babel', () => {
   return (
-    gulp.src([
-      CONFIG.path.src + '/**/*.js',
-      '!' + CONFIG.path.src + '/**/*.min.js'
-    ])
-    .pipe(cached('babel'))
+    gulp.src(filePath.babel)
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(eslint(CONFIG.eslint))
     .pipe(eslint.format())
@@ -231,10 +185,7 @@ gulp.task('babel', () => {
 //
 gulp.task('copy-excepted-files', () => {
   return (
-    gulp.src([
-      CONFIG.path.src + '/**/*-no-compress.+(jpg|jpeg|png|gif|svg)',
-      CONFIG.path.src + '/**/*.min.js'
-    ])
+    gulp.src(filePath.copyExceptedFiles)
     .pipe(cached('copy-excepted-files'))
     .pipe(gulp.dest(CONFIG.path.dist))
   );
@@ -242,16 +193,7 @@ gulp.task('copy-excepted-files', () => {
 
 gulp.task('copy', ['copy-excepted-files'], () => {
   return (
-    gulp.src([
-      CONFIG.path.src + '/**/*'                              ,
-      '!' + CONFIG.path.src + '/**/*.pug'                    ,
-      '!' + CONFIG.path.src + '/**/*.js'                     ,
-      '!' + CONFIG.path.src + '/**/*.+(jpg|jpeg|png|gif|svg)',
-      '!' + CONFIG.path.src + '/**/*.scss'                   ,
-      '!' + CONFIG.path.src + '/**/*.css'                    ,
-      '!' + CONFIG.path.src + '/_*/'                         ,
-      '!' + CONFIG.path.src + '/**/_*'
-    ])
+    gulp.src(filePath.copy)
     .pipe(cached('copy'))
     .pipe(gulp.dest(CONFIG.path.dist))
   );
@@ -288,13 +230,50 @@ gulp.task('html-hint', () => {
 });
 
 // =============================================
+// watch
+//
+gulp.task('watch', () => {
+  watch(filePath.pug, () => {
+    runSequence('pug')
+  })
+
+  watch(filePath.csscomb, () => {
+    runSequence('csscomb')
+  })
+
+  watch(filePath.sass, () => {
+    runSequence('sass')
+  })
+
+  watch(filePath.autoprefixer, () => {
+    runSequence('autoprefixer')
+  })
+
+  watch(filePath.imagemin, () => {
+    runSequence('imagemin')
+  })
+
+  watch(filePath.babel, () => {
+    runSequence('babel')
+  })
+
+  watch(filePath.copyExceptedFiles, () => {
+    runSequence('copy-excepted-files')
+  })
+
+  watch(filePath.copy, () => {
+    runSequence('copy')
+  })
+})
+
+// =============================================
 // gulp default task
 //
 gulp.task('default', ['build'], () => {
   runSequence(
     'browser-sync',
-    'html-hint',
-    beginWatch
+    // 'html-hint'
+    'watch'
   );
 });
 
@@ -308,7 +287,6 @@ gulp.task('build', (callBack) => {
     'csscomb'  ,
     ['copy', 'pug', 'sass', 'imagemin', 'babel'],
     'html-hint',
-    'sitemap'  ,
     callBack
   );
 });
