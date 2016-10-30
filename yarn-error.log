@@ -1,0 +1,91 @@
+Arguments: 
+  /Users/yamadanoriaki/.nodebrew/node/v7.0.0/bin/node /Users/yamadanoriaki/.nodebrew/current/bin/yarn
+
+PATH: 
+  /Users/yamadanoriaki/.rbenv/shims:/Users/yamadanoriaki/.rbenv/bin:/Users/yamadanoriaki/.nodebrew/current/bin:/Users/yamadanoriaki/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  0.16.1
+
+Node version: 
+  7.0.0
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "new-site",
+    "version": "1.1.1",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "build": "gulp build",
+      "clean": "gulp clean",
+      "imagemin": "gulp imagemin",
+      "pug": "gulp pug",
+      "csscomb": "gulp csscomb",
+      "babel": "gulp babel",
+      "html-hint": "gulp html-hint",
+      "gulp": "gulp"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://noliaki@github.com/noliaki/new-site.git"
+    },
+    "author": "noriaki.yamada",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/noliaki/new-site/issues"
+    },
+    "homepage": "https://github.com/noliaki/new-site#readme",
+    "devDependencies": {
+      "babel-eslint": "^7.0.0",
+      "babel-preset-es2015": "^6.14.0",
+      "browser-sync": "^2.15.0",
+      "eslint-config-standard": "^6.0.0",
+      "eslint-plugin-promise": "^3.0.0",
+      "eslint-plugin-standard": "^2.0.0",
+      "gulp": "^3.9.1",
+      "gulp-autoprefixer": "^3.1.0",
+      "gulp-babel": "^6.1.2",
+      "gulp-cached": "^1.1.0",
+      "gulp-csscomb": "^3.0.7",
+      "gulp-data": "^1.2.1",
+      "gulp-eslint": "^3.0.1",
+      "gulp-htmlhint": "^0.3.1",
+      "gulp-imagemin": "^3.0.1",
+      "gulp-plumber": "^1.1.0",
+      "gulp-pug": "^3.0.3",
+      "gulp-sass": "^2.3.2",
+      "gulp-sitemap": "^4.2.0",
+      "gulp-uglify": "^2.0.0",
+      "gulp-watch": "^4.3.10",
+      "imagemin-pngquant": "^5.0.0",
+      "minimist": "^1.2.0",
+      "rimraf": "^2.5.2",
+      "run-sequence": "^1.2.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+bower manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: https://registry.yarnpkg.com/yargs/-/yargs-3.29.0.tgz: invalid tar file
+      at Extract.Parse._startEntry (/Users/yamadanoriaki/.nodebrew/node/v7.0.0/lib/node_modules/yarn/node_modules/tar/lib/parse.js:149:13)
+      at Extract.Parse._process (/Users/yamadanoriaki/.nodebrew/node/v7.0.0/lib/node_modules/yarn/node_modules/tar/lib/parse.js:131:12)
+      at BlockStream.<anonymous> (/Users/yamadanoriaki/.nodebrew/node/v7.0.0/lib/node_modules/yarn/node_modules/tar/lib/parse.js:47:8)
+      at emitOne (events.js:96:13)
+      at BlockStream.emit (events.js:188:7)
+      at BlockStream._emitChunk (/Users/yamadanoriaki/.nodebrew/node/v7.0.0/lib/node_modules/yarn/node_modules/block-stream/block-stream.js:145:10)
+      at BlockStream.flush (/Users/yamadanoriaki/.nodebrew/node/v7.0.0/lib/node_modules/yarn/node_modules/block-stream/block-stream.js:70:8)
+      at BlockStream.end (/Users/yamadanoriaki/.nodebrew/node/v7.0.0/lib/node_modules/yarn/node_modules/block-stream/block-stream.js:66:8)
+      at Extract.Parse.end (/Users/yamadanoriaki/.nodebrew/node/v7.0.0/lib/node_modules/yarn/node_modules/tar/lib/parse.js:86:23)
+      at UnpackStream.onend (_stream_readable.js:511:10)
