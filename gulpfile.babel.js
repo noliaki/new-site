@@ -1,6 +1,7 @@
 'use strict';
 
 const fs           = require('fs');
+const path         = require('path');
 const gulp         = require('gulp');
 const rimraf       = require('rimraf');
 const uglify       = require('gulp-uglify');
@@ -34,6 +35,11 @@ const argv         = require('minimist')(process.argv.slice(2));
 // cached
 const cached       = require('gulp-cached');
 
+// dependency detector
+const progeny      = require('gulp-progeny');
+
+// prune matched files
+const ignore       = require('gulp-ignore');
 
 // =============================================
 // CONFIG
@@ -122,11 +128,14 @@ gulp.task('browser-sync', () => {
 gulp.task('pug', () => {
   return (
     gulp.src([
-      CONFIG.path.src + '/**/*.pug',
-      '!' + CONFIG.path.src + '/_*/',
-      '!' + CONFIG.path.src + '/**/_*'
+      CONFIG.path.src + '/**/*.pug'
     ])
     .pipe(cached('pug'))
+    .pipe(progeny(CONFIG.progeny.pug))
+    .pipe(ignore.exclude(file => {
+      const relativePath = path.relative(CONFIG.path.src, file.path);
+      return /[\/\\^]_[^\/\\]+/.test(relativePath);
+    }))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(data(CONFIG.data))
     .pipe(pug(CONFIG.pug))
@@ -161,6 +170,7 @@ gulp.task('sass', () => {
       CONFIG.path.src + '/**/*.scss'
     ])
     .pipe(cached('sass'))
+    .pipe(progeny(CONFIG.progeny.sass))
     .pipe(IS_PROD? plumber.stop() : plumber(CONFIG.plumber))
     .pipe(sass(CONFIG.sass).on('error', sass.logError))
     .pipe(autoprefixer(CONFIG.autoprefixer))
