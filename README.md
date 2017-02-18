@@ -1,5 +1,7 @@
 # template NEW SITE
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/noliaki/new-site.svg)](https://greenkeeper.io/)
+
 [![node](https://img.shields.io/badge/node-v6.5.x-yellow.svg)](https://github.com/noliaki/new-site/blob/master/README.md)
 [![npm](https://img.shields.io/badge/npm-3.10.3-blue.svg)](https://github.com/noliaki/new-site/blob/master/README.md)
 [![Build Status](https://travis-ci.org/noliaki/new-site.svg?branch=master)](https://travis-ci.org/noliaki/new-site)
