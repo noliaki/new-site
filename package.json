@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/noliaki/new-site#readme",
   "devDependencies": {
-    "babel-eslint": "^7.0.0",
+    "babel-eslint": "^8.2.1",
     "babel-preset-es2015": "^6.14.0",
     "browser-sync": "^2.15.0",
     "eslint-config-standard": "^6.0.0",
