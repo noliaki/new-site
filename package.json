@@ -44,7 +44,7 @@
     "gulp-progeny": "^0.4.0",
     "gulp-pug": "^3.0.3",
     "gulp-sass": "^3.1.0",
-    "gulp-sitemap": "^4.2.0",
+    "gulp-sitemap": "^7.4.0",
     "gulp-uglify": "^2.0.0",
     "imagemin-pngquant": "^5.0.0",
     "minimist": "^1.2.0",
